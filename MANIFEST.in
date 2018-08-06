@@ -1,0 +1,2 @@
+recursive-include lib *.cc *.h LICENSE
+recursive-include pyreaper *.cpp *.pxd
