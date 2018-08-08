@@ -12,6 +12,7 @@ import os
 from glob import glob
 from os.path import join
 
+version = '0.0.2'
 
 openjtalk_install_prefix = os.environ.get(
     "OPEN_JTALK_INSTALL_PREFIX", "/usr/local/")
@@ -64,8 +65,6 @@ ext_modules = cythonize(
         extra_link_args=[],
         language="c++")],
 )
-
-version = '0.0.1'
 
 # Adapted from https://github.com/pytorch/pytorch
 cwd = os.path.dirname(os.path.abspath(__file__))
