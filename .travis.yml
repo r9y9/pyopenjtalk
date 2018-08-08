@@ -1,7 +1,6 @@
 language: python
 
 python:
-  - "2.7"
   - "3.6"
 
 notifications:
@@ -12,6 +11,7 @@ os:
 #  - osx
 
 before_install:
+  - export LD_LIBRARY_PATH=/usr/local/lib
   # hts_engine_API
   - cd $HOME
   - git clone https://github.com/r9y9/hts_engine_API.git && cd hts_engine_API/src
