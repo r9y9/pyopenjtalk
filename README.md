@@ -5,7 +5,7 @@
 [![Documentation Status](https://readthedocs.org/projects/pyopenjtalk/badge/?version=latest)](http://pyopenjtalk.readthedocs.io/en/latest/?badge=latest)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 
-A python wrapper for [OpenJTalk](http://open-jtalk.sp.nitech.ac.jp/)
+A python wrapper for [OpenJTalk](http://open-jtalk.sp.nitech.ac.jp/). Note that this is built on top of a [modified version of OpenJTalk](https://github.com/r9y9/open_jtalk).
 
 ## Installation
 
