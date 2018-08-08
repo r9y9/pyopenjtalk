@@ -18,7 +18,7 @@ from .openjtalk import OpenJTalk
 # Dictionary directory
 # defaults to the package directory where the dictionary will be automatically downloaded
 OPEN_JTALK_DICT_DIR = os.environ.get(
-    "OPEN_JTALK_DICT_DIR",  pkg_resources.resource_filename(
+    "OPEN_JTALK_DICT_DIR", pkg_resources.resource_filename(
         __name__, "open_jtalk_dic_utf_8-1.10")).encode("ascii")
 _DICT_URL = "https://downloads.sourceforge.net/open-jtalk/open_jtalk_dic_utf_8-1.10.tar.gz"
 
