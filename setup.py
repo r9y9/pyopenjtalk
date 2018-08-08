@@ -127,7 +127,8 @@ setup(
     cmdclass=cmdclass,
     install_requires=[
         'numpy >= 1.8.0',
-                'cython >= ' + min_cython_ver,
+        'cython >= ' + min_cython_ver,
+        'six',
     ],
     tests_require=['nose', 'coverage'],
     extras_require={
@@ -140,8 +141,6 @@ setup(
         "Operating System :: MacOS",
         "Programming Language :: Cython",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
