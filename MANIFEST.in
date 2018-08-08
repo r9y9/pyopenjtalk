@@ -1,2 +1,2 @@
-recursive-include lib *.cc *.h LICENSE
-recursive-include pyreaper *.cpp *.pxd
+include README.md LICENSE.md
+recursive-include pyopenjtalk *.cpp *.pxd *.md
