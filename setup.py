@@ -3,8 +3,10 @@
 from __future__ import with_statement, print_function, absolute_import
 
 from setuptools import setup, find_packages, Extension
+import setuptools.command.develop
+import setuptools.command.build_py
 from distutils.version import LooseVersion
-
+import subprocess
 import numpy as np
 import os
 from glob import glob
@@ -63,12 +65,55 @@ ext_modules = cythonize(
         language="c++")],
 )
 
+version = '0.0.1'
+
+# Adapted from https://github.com/pytorch/pytorch
+cwd = os.path.dirname(os.path.abspath(__file__))
+if os.getenv('PYOPENJTALK_BUILD_VERSION'):
+    version = os.getenv('PYOPENJTALK_BUILD_VERSION')
+else:
+    try:
+        sha = subprocess.check_output(
+            ['git', 'rev-parse', 'HEAD'], cwd=cwd).decode('ascii').strip()
+        version += '+' + sha[:7]
+    except subprocess.CalledProcessError:
+        pass
+    except IOError:  # FileNotFoundError for python 3
+        pass
+
+
+class build_py(setuptools.command.build_py.build_py):
+
+    def run(self):
+        self.create_version_file()
+        setuptools.command.build_py.build_py.run(self)
+
+    @staticmethod
+    def create_version_file():
+        global version, cwd
+        print('-- Building version ' + version)
+        version_path = os.path.join(cwd, 'pyopenjtalk', 'version.py')
+        with open(version_path, 'w') as f:
+            f.write("__version__ = '{}'\n".format(version))
+
+
+class develop(setuptools.command.develop.develop):
+
+    def run(self):
+        build_py.create_version_file()
+        setuptools.command.develop.develop.run(self)
+
+
+cmdclass['build_py'] = build_py
+cmdclass['develop'] = develop
+
+
 with open('README.md', 'r') as fd:
     long_description = fd.read()
 
 setup(
     name='pyopenjtalk',
-    version='0.0.1',
+    version=version,
     description='A python wrapper for OpenJTalk',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -82,9 +127,11 @@ setup(
     cmdclass=cmdclass,
     install_requires=[
         'numpy >= 1.8.0',
+                'cython >= ' + min_cython_ver,
     ],
     tests_require=['nose', 'coverage'],
     extras_require={
+        'docs': ['sphinx_rtd_theme'],
         'test': ['nose', 'scipy'],
     },
     classifiers=[
@@ -104,5 +151,5 @@ setup(
         "Intended Audience :: Science/Research",
         "Intended Audience :: Developers",
     ],
-    keywords=["OpenJTalk"]
+    keywords=["OpenJTalk", "Research"]
 )

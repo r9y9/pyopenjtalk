@@ -8,7 +8,10 @@ import os
 from urllib.request import urlretrieve
 import tarfile
 
-__version__ = pkg_resources.get_distribution('pyopenjtalk').version
+try:
+    from .version import __version__
+except ImportError:
+    raise ImportError("BUG: version.py doesn't exist. Please file a bug report.")
 
 from .openjtalk import OpenJTalk
 
