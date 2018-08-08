@@ -15,7 +15,7 @@ before_install:
   # hts_engine_API
   - cd $HOME
   - git clone https://github.com/r9y9/hts_engine_API.git && cd hts_engine_API/src
-  - ./waf configure build
+  - sudo ./waf configure build
   - sudo ./waf install
   # open_jtalk
   - cd $HOME
