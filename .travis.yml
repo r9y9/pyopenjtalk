@@ -9,7 +9,7 @@ notifications:
 
 os:
   - linux
-  - osx
+#  - osx
 
 before_install:
   # hts_engine_API
@@ -42,6 +42,7 @@ before_install:
   - conda create -q -n test-environment "python=$TRAVIS_PYTHON_VERSION" $deps -c pytorch
   - source activate test-environment
   - pip install flake8
+  - cd $TRAVIS_BUILD_DIR
 
 install:
   - pip install -e ".[test]"
