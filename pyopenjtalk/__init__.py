@@ -5,7 +5,11 @@ from __future__ import division, print_function, absolute_import
 import pkg_resources
 from os.path import exists
 import os
-from urllib.request import urlretrieve
+import six
+if six.PY2:
+    from urllib import urlretrieve
+else:
+    from urllib.request import urlretrieve
 import tarfile
 
 try:
