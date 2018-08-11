@@ -45,7 +45,7 @@ before_install:
   - cd $TRAVIS_BUILD_DIR
 
 install:
-  - pip install -e ".[test]"
+  - pip install -e ".[test,docs]"
 
 script:
   - nosetests -s -v -w tests/ -a '!local_only'
