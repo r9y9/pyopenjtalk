@@ -62,7 +62,7 @@ ext_modules = cythonize(
         library_dirs=[openjtalk_library_path],
         libraries=["openjtalk"],
         extra_compile_args=[],
-        extra_link_args=[],
+        extra_link_args=["-Wl,-rpath=" + openjtalk_library_path],
         language="c++")],
 )
 
