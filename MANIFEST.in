@@ -1,2 +1,2 @@
 include README.md LICENSE.md
-recursive-include pyopenjtalk *.cpp *.pxd *.md
+recursive-include pyopenjtalk *.cpp *.pxd *.md *.pyx
