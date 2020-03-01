@@ -12,7 +12,7 @@ import os
 from glob import glob
 from os.path import join
 
-version = '0.0.2'
+version = '0.0.3'
 
 openjtalk_install_prefix = os.environ.get(
     "OPEN_JTALK_INSTALL_PREFIX", "/usr/local/")
