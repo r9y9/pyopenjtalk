@@ -1,6 +1,7 @@
 pyopenjtalk/version.py
 pyopenjtalk/openjtalk.cpp
 pyopenjtalk/open_jtalk_dic_utf_8-1.10/
+pyopenjtalk/open_jtalk_dic_utf_8-1.11/
 docs/generated
 sample.*
 
