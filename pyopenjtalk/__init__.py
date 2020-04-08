@@ -23,8 +23,8 @@ from .openjtalk import OpenJTalk
 # defaults to the package directory where the dictionary will be automatically downloaded
 OPEN_JTALK_DICT_DIR = os.environ.get(
     "OPEN_JTALK_DICT_DIR", pkg_resources.resource_filename(
-        __name__, "open_jtalk_dic_utf_8-1.10")).encode("ascii")
-_DICT_URL = "https://downloads.sourceforge.net/open-jtalk/open_jtalk_dic_utf_8-1.10.tar.gz"
+        __name__, "open_jtalk_dic_utf_8-1.11")).encode("ascii")
+_DICT_URL = "https://downloads.sourceforge.net/open-jtalk/open_jtalk_dic_utf_8-1.11.tar.gz"
 
 # Global instance of OpenJTalk
 _global_jtalk = None
@@ -39,7 +39,7 @@ def _extract_dic():
     with tarfile.open(filename, mode="r|gz") as f:
         f.extractall(path=pkg_resources.resource_filename(__name__, ""))
     OPEN_JTALK_DICT_DIR = pkg_resources.resource_filename(
-        __name__, "open_jtalk_dic_utf_8-1.10").encode("ascii")
+        __name__, "open_jtalk_dic_utf_8-1.11").encode("ascii")
     os.remove(filename)
 
 
