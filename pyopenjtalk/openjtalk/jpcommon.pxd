@@ -2,7 +2,7 @@
 
 from libc.stdio cimport FILE
 
-cdef extern from "openjtalk/jpcommon.h":
+cdef extern from "jpcommon.h":
     cdef cppclass JPCommonNode:
        char *pron
        char *pos

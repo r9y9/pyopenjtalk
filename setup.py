@@ -10,20 +10,10 @@ import subprocess
 import numpy as np
 import os
 from glob import glob
-from os.path import join
+from os.path import join, exists
+from subprocess import run
 
 version = '0.0.3'
-
-openjtalk_install_prefix = os.environ.get(
-    "OPEN_JTALK_INSTALL_PREFIX", "/usr/local/")
-
-openjtalk_include_top = join(openjtalk_install_prefix, "include")
-openjtalk_library_path = join(openjtalk_install_prefix, "lib")
-
-lib_candidates = list(filter(lambda l: l.startswith("libopenjtalk."),
-                             os.listdir(join(openjtalk_library_path))))
-if len(lib_candidates) == 0:
-    raise OSError("openjtalk library cannot be found")
 
 min_cython_ver = '0.21.0'
 try:
@@ -51,20 +41,49 @@ else:
     if not os.path.exists(join("pyopenjtalk", "openjtalk" + ext)):
         raise RuntimeError("Cython is required to generate C++ code")
 
-ext_modules = cythonize(
-    [Extension(
-        name="pyopenjtalk.openjtalk",
-        sources=[
-            join("pyopenjtalk", "openjtalk" + ext),
-        ],
-        include_dirs=[np.get_include(),
-                      join(openjtalk_include_top)],
-        library_dirs=[openjtalk_library_path],
-        libraries=["openjtalk"],
-        extra_compile_args=[],
-        extra_link_args=[],
-        language="c++")],
-)
+# open_jtalk sources
+src_top = join("lib", "open_jtalk", "src")
+
+# generate config.h for mecab
+# NOTE: need to run cmake to generate config.h
+# we could do it on python side but it would be very tricky,
+# so far let's use cmake tool
+if not exists(join(src_top, "mecab", "src", "config.h")):
+    cwd = os.getcwd()
+    build_dir = join(src_top, "build")
+    os.makedirs(build_dir, exist_ok=True)
+    os.chdir(build_dir)
+    run(["cmake", ".."])
+    os.chdir(cwd)
+
+all_src = []
+include_dirs = []
+for s in [
+    "jpcommon", "mecab/src", "mecab2njd", "njd", "njd2jpcommon",
+    "njd_set_accent_phrase", "njd_set_accent_type",
+    "njd_set_digit", "njd_set_long_vowel", "njd_set_pronunciation",
+    "njd_set_unvoiced_vowel", "text2mecab",
+]:
+    all_src += glob(join(src_top, s, "*.c"))
+    all_src += glob(join(src_top, s, "*.cpp"))
+    include_dirs.append(join(os.getcwd(), src_top, s))
+
+# define core cython module
+ext_modules = [Extension(
+    name="pyopenjtalk.openjtalk",
+    sources=[join("pyopenjtalk", "openjtalk" + ext)] + all_src,
+    include_dirs=[np.get_include()] + include_dirs,
+    extra_compile_args=[],
+    extra_link_args=[],
+    language="c++",
+    define_macros=[
+        ("HAVE_CONFIG_H", None),
+        ("DIC_VERSION", 102), ("MECAB_DEFAULT_RC", "\"dummy\""),
+        ("PACKAGE", "\"open_jtalk\""),
+        ("VERSION", "\"1.10\""),
+        ("CHARSET_UTF_8", None),
+        ]
+)]
 
 # Adapted from https://github.com/pytorch/pytorch
 cwd = os.path.dirname(os.path.abspath(__file__))
