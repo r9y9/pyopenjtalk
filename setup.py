@@ -82,7 +82,7 @@ ext_modules = [Extension(
         ("PACKAGE", "\"open_jtalk\""),
         ("VERSION", "\"1.10\""),
         ("CHARSET_UTF_8", None),
-        ]
+    ]
 )]
 
 # Adapted from https://github.com/pytorch/pytorch
