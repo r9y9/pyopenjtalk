@@ -9,7 +9,7 @@ notifications:
 
 os:
   - linux
-#  - osx
+  - osx
 
 before_install:
   # anaconda
