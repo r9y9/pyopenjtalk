@@ -1,0 +1,3 @@
+[submodule "lib/open_jtalk"]
+	path = lib/open_jtalk
+	url = https://github.com/r9y9/open_jtalk.git
