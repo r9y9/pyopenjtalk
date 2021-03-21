@@ -1,15 +1,14 @@
-# coding: utf-8
-
-from __future__ import division, print_function, absolute_import
+import os
+from os.path import exists
 
 import pkg_resources
-from os.path import exists
-import os
 import six
+
 if six.PY2:
     from urllib import urlretrieve
 else:
     from urllib.request import urlretrieve
+
 import tarfile
 
 try:
@@ -17,17 +16,29 @@ try:
 except ImportError:
     raise ImportError("BUG: version.py doesn't exist. Please file a bug report.")
 
+from .htsengine import HTSEngine
 from .openjtalk import OpenJTalk
 
 # Dictionary directory
 # defaults to the package directory where the dictionary will be automatically downloaded
 OPEN_JTALK_DICT_DIR = os.environ.get(
-    "OPEN_JTALK_DICT_DIR", pkg_resources.resource_filename(
-        __name__, "open_jtalk_dic_utf_8-1.11")).encode("ascii")
-_DICT_URL = "https://downloads.sourceforge.net/open-jtalk/open_jtalk_dic_utf_8-1.11.tar.gz"
+    "OPEN_JTALK_DICT_DIR",
+    pkg_resources.resource_filename(__name__, "open_jtalk_dic_utf_8-1.11"),
+).encode("ascii")
+_DICT_URL = (
+    "https://downloads.sourceforge.net/open-jtalk/open_jtalk_dic_utf_8-1.11.tar.gz"
+)
+
+# Default mei_normal.voice for HMM-based TTS
+DEFAULT_HTS_VOICE = pkg_resources.resource_filename(
+    __name__, "htsvoice/mei_normal.htsvoice"
+).encode("ascii")
 
 # Global instance of OpenJTalk
 _global_jtalk = None
+# Global instance of HTSEngine
+# mei_normal.voice is used as default
+_global_htsengine = None
 
 
 def _extract_dic():
@@ -35,11 +46,12 @@ def _extract_dic():
     filename = pkg_resources.resource_filename(__name__, "dic.tar.gz")
     print('Downloading: "{}"'.format(_DICT_URL))
     urlretrieve(_DICT_URL, filename)
-    print('Extracting tar file {}'.format(filename))
+    print("Extracting tar file {}".format(filename))
     with tarfile.open(filename, mode="r|gz") as f:
         f.extractall(path=pkg_resources.resource_filename(__name__, ""))
     OPEN_JTALK_DICT_DIR = pkg_resources.resource_filename(
-        __name__, "open_jtalk_dic_utf_8-1.11").encode("ascii")
+        __name__, "open_jtalk_dic_utf_8-1.11"
+    ).encode("ascii")
     os.remove(filename)
 
 
@@ -70,7 +82,54 @@ def g2p(*args, **kwargs):
     return _global_jtalk.g2p(*args, **kwargs)
 
 
-def run_frontend(*args, **kwargs):
+def extract_fullcontext(text):
+    """Extract full-context labels from text
+
+    Args:
+        text (str): Input text
+
+    Returns:
+        list: List of full-context labels
+    """
+    # note: drop first return
+    _, labels = run_frontend(text)
+    return labels
+
+
+def synthesize(labels):
+    """Run OpenJTalk's speech synthesis backend
+
+    Args:
+        labels (list): Full-context labels
+
+    Returns:
+        np.ndarray: speech waveform (dtype: np.float64)
+        int: sampling frequency (defualt: 48000)
+    """
+    if isinstance(labels, tuple) and len(labels) == 2:
+        labels = labels[1]
+
+    global _global_htsengine
+    if _global_htsengine is None:
+        _global_htsengine = HTSEngine(DEFAULT_HTS_VOICE)
+    sr = _global_htsengine.get_sampling_frequency()
+    return _global_htsengine.synthesize(labels), sr
+
+
+def tts(text):
+    """Text-to-speech
+
+    Args:
+        text (str): Input text
+
+    Returns:
+        np.ndarray: speech waveform (dtype: np.float64)
+        int: sampling frequency (defualt: 48000)
+    """
+    return synthesize(extract_fullcontext(text))
+
+
+def run_frontend(text, verbose=0):
     """Run OpenJTalk's text processing frontend
 
     Args:
@@ -85,4 +144,4 @@ def run_frontend(*args, **kwargs):
     if _global_jtalk is None:
         _lazy_init()
         _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR)
-    return _global_jtalk.run_frontend(*args, **kwargs)
+    return _global_jtalk.run_frontend(text, verbose)

@@ -1,23 +1,21 @@
-# coding: utf-8
-
-from __future__ import with_statement, print_function, absolute_import
-
-from setuptools import setup, find_packages, Extension
-import setuptools.command.develop
-import setuptools.command.build_py
-from distutils.version import LooseVersion
-import subprocess
-import numpy as np
 import os
+import subprocess
+from distutils.version import LooseVersion
 from glob import glob
-from os.path import join, exists
+from os.path import exists, join
 from subprocess import run
 
-version = '0.0.3'
+import numpy as np
+import setuptools.command.build_py
+import setuptools.command.develop
+from setuptools import Extension, find_packages, setup
 
-min_cython_ver = '0.21.0'
+version = "0.1.0"
+
+min_cython_ver = "0.21.0"
 try:
     import Cython
+
     ver = Cython.__version__
     _CYTHON_INSTALLED = ver >= LooseVersion(min_cython_ver)
 except ImportError:
@@ -25,18 +23,19 @@ except ImportError:
 
 try:
     if not _CYTHON_INSTALLED:
-        raise ImportError('No supported version of Cython installed.')
-    from Cython.Distutils import build_ext
+        raise ImportError("No supported version of Cython installed.")
     from Cython.Build import cythonize
+    from Cython.Distutils import build_ext
+
     cython = True
 except ImportError:
     cython = False
 
 if cython:
-    ext = '.pyx'
-    cmdclass = {'build_ext': build_ext}
+    ext = ".pyx"
+    cmdclass = {"build_ext": build_ext}
 else:
-    ext = '.cpp'
+    ext = ".cpp"
     cmdclass = {}
     if not os.path.exists(join("pyopenjtalk", "openjtalk" + ext)):
         raise RuntimeError("Cython is required to generate C++ code")
@@ -59,41 +58,69 @@ if not exists(join(src_top, "mecab", "src", "config.h")):
 all_src = []
 include_dirs = []
 for s in [
-    "jpcommon", "mecab/src", "mecab2njd", "njd", "njd2jpcommon",
-    "njd_set_accent_phrase", "njd_set_accent_type",
-    "njd_set_digit", "njd_set_long_vowel", "njd_set_pronunciation",
-    "njd_set_unvoiced_vowel", "text2mecab",
+    "jpcommon",
+    "mecab/src",
+    "mecab2njd",
+    "njd",
+    "njd2jpcommon",
+    "njd_set_accent_phrase",
+    "njd_set_accent_type",
+    "njd_set_digit",
+    "njd_set_long_vowel",
+    "njd_set_pronunciation",
+    "njd_set_unvoiced_vowel",
+    "text2mecab",
 ]:
     all_src += glob(join(src_top, s, "*.c"))
     all_src += glob(join(src_top, s, "*.cpp"))
     include_dirs.append(join(os.getcwd(), src_top, s))
 
-# define core cython module
-ext_modules = [Extension(
-    name="pyopenjtalk.openjtalk",
-    sources=[join("pyopenjtalk", "openjtalk" + ext)] + all_src,
-    include_dirs=[np.get_include()] + include_dirs,
-    extra_compile_args=[],
-    extra_link_args=[],
-    language="c++",
-    define_macros=[
-        ("HAVE_CONFIG_H", None),
-        ("DIC_VERSION", 102), ("MECAB_DEFAULT_RC", "\"dummy\""),
-        ("PACKAGE", "\"open_jtalk\""),
-        ("VERSION", "\"1.10\""),
-        ("CHARSET_UTF_8", None),
-    ]
-)]
+# Extension for OpenJTalk frontend
+ext_modules = [
+    Extension(
+        name="pyopenjtalk.openjtalk",
+        sources=[join("pyopenjtalk", "openjtalk" + ext)] + all_src,
+        include_dirs=[np.get_include()] + include_dirs,
+        extra_compile_args=[],
+        extra_link_args=[],
+        language="c++",
+        define_macros=[
+            ("HAVE_CONFIG_H", None),
+            ("DIC_VERSION", 102),
+            ("MECAB_DEFAULT_RC", '"dummy"'),
+            ("PACKAGE", '"open_jtalk"'),
+            ("VERSION", '"1.10"'),
+            ("CHARSET_UTF_8", None),
+        ],
+    )
+]
+
+# Extension for HTSEngine backend
+htsengine_src_top = join("lib", "hts_engine_API", "src")
+all_htsengine_src = glob(join(htsengine_src_top, "lib", "*.c"))
+ext_modules += [
+    Extension(
+        name="pyopenjtalk.htsengine",
+        sources=[join("pyopenjtalk", "htsengine" + ext)] + all_htsengine_src,
+        include_dirs=[np.get_include(), join(htsengine_src_top, "include")],
+        extra_compile_args=[],
+        extra_link_args=[],
+        language="c++",
+    )
+]
 
 # Adapted from https://github.com/pytorch/pytorch
 cwd = os.path.dirname(os.path.abspath(__file__))
-if os.getenv('PYOPENJTALK_BUILD_VERSION'):
-    version = os.getenv('PYOPENJTALK_BUILD_VERSION')
+if os.getenv("PYOPENJTALK_BUILD_VERSION"):
+    version = os.getenv("PYOPENJTALK_BUILD_VERSION")
 else:
     try:
-        sha = subprocess.check_output(
-            ['git', 'rev-parse', 'HEAD'], cwd=cwd).decode('ascii').strip()
-        version += '+' + sha[:7]
+        sha = (
+            subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=cwd)
+            .decode("ascii")
+            .strip()
+        )
+        version += "+" + sha[:7]
     except subprocess.CalledProcessError:
         pass
     except IOError:  # FileNotFoundError for python 3
@@ -101,7 +128,6 @@ else:
 
 
 class build_py(setuptools.command.build_py.build_py):
-
     def run(self):
         self.create_version_file()
         setuptools.command.build_py.build_py.run(self)
@@ -109,49 +135,48 @@ class build_py(setuptools.command.build_py.build_py):
     @staticmethod
     def create_version_file():
         global version, cwd
-        print('-- Building version ' + version)
-        version_path = os.path.join(cwd, 'pyopenjtalk', 'version.py')
-        with open(version_path, 'w') as f:
+        print("-- Building version " + version)
+        version_path = os.path.join(cwd, "pyopenjtalk", "version.py")
+        with open(version_path, "w") as f:
             f.write("__version__ = '{}'\n".format(version))
 
 
 class develop(setuptools.command.develop.develop):
-
     def run(self):
         build_py.create_version_file()
         setuptools.command.develop.develop.run(self)
 
 
-cmdclass['build_py'] = build_py
-cmdclass['develop'] = develop
+cmdclass["build_py"] = build_py
+cmdclass["develop"] = develop
 
 
-with open('README.md', 'r') as fd:
+with open("README.md", "r") as fd:
     long_description = fd.read()
 
 setup(
-    name='pyopenjtalk',
+    name="pyopenjtalk",
     version=version,
-    description='A python wrapper for OpenJTalk',
+    description="A python wrapper for OpenJTalk",
     long_description=long_description,
-    long_description_content_type='text/markdown',
-    author='Ryuichi Yamamoto',
-    author_email='zryuichi@gmail.com',
-    url='https://github.com/r9y9/pyopenjtalk',
-    license='MIT',
+    long_description_content_type="text/markdown",
+    author="Ryuichi Yamamoto",
+    author_email="zryuichi@gmail.com",
+    url="https://github.com/r9y9/pyopenjtalk",
+    license="MIT",
     packages=find_packages(),
-    package_data={'': ['htsvoice/*']},
+    package_data={"": ["htsvoice/*"]},
     ext_modules=ext_modules,
     cmdclass=cmdclass,
     install_requires=[
-        'numpy >= 1.8.0',
-        'cython >= ' + min_cython_ver,
-        'six',
+        "numpy >= 1.8.0",
+        "cython >= " + min_cython_ver,
+        "six",
     ],
-    tests_require=['nose', 'coverage'],
+    tests_require=["nose", "coverage"],
     extras_require={
-        'docs': ['sphinx_rtd_theme'],
-        'test': ['nose', 'scipy'],
+        "docs": ["sphinx_rtd_theme"],
+        "test": ["pytest", "scipy"],
     },
     classifiers=[
         "Operating System :: POSIX",
@@ -168,5 +193,5 @@ setup(
         "Intended Audience :: Science/Research",
         "Intended Audience :: Developers",
     ],
-    keywords=["OpenJTalk", "Research"]
+    keywords=["OpenJTalk", "Research"],
 )
