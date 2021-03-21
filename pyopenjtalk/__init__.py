@@ -82,25 +82,21 @@ def g2p(*args, **kwargs):
     return _global_jtalk.g2p(*args, **kwargs)
 
 
-def run_frontend(text, verbose=0):
-    """Run OpenJTalk's text processing frontend
+def extract_fullcontext(text):
+    """Extract full-context labels from text
 
     Args:
-        text (str): Unicode Japanese text.
-        verbose (int): Verbosity. Default is 0.
+        text (str): Input text
 
     Returns:
-        tuple: Pair of 1) NJD_print and 2) JPCommon_make_label.
-        The latter is the full-context labels in HTS-style format.
+        list: List of full-context labels
     """
-    global _global_jtalk
-    if _global_jtalk is None:
-        _lazy_init()
-        _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR)
-    return _global_jtalk.run_frontend(text, verbose)
+    # note: drop first return
+    _, labels = run_frontend(text)
+    return labels
 
 
-def run_backend(labels):
+def synthesize(labels):
     """Run OpenJTalk's speech synthesis backend
 
     Args:
@@ -110,6 +106,9 @@ def run_backend(labels):
         np.ndarray: speech waveform (dtype: np.float64)
         int: sampling frequency (defualt: 48000)
     """
+    if isinstance(labels, tuple) and len(labels) == 2:
+        labels = labels[1]
+
     global _global_htsengine
     if _global_htsengine is None:
         _global_htsengine = HTSEngine(DEFAULT_HTS_VOICE)
@@ -127,5 +126,22 @@ def tts(text):
         np.ndarray: speech waveform (dtype: np.float64)
         int: sampling frequency (defualt: 48000)
     """
-    _, labels = run_frontend(text)
-    return run_backend(labels)
+    return synthesize(extract_fullcontext(text))
+
+
+def run_frontend(text, verbose=0):
+    """Run OpenJTalk's text processing frontend
+
+    Args:
+        text (str): Unicode Japanese text.
+        verbose (int): Verbosity. Default is 0.
+
+    Returns:
+        tuple: Pair of 1) NJD_print and 2) JPCommon_make_label.
+        The latter is the full-context labels in HTS-style format.
+    """
+    global _global_jtalk
+    if _global_jtalk is None:
+        _lazy_init()
+        _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR)
+    return _global_jtalk.run_frontend(text, verbose)
