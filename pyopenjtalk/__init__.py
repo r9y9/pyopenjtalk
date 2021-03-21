@@ -96,11 +96,13 @@ def extract_fullcontext(text):
     return labels
 
 
-def synthesize(labels):
+def synthesize(labels, speed=1.0, half_tone=0.0):
     """Run OpenJTalk's speech synthesis backend
 
     Args:
         labels (list): Full-context labels
+        speed (float): speech speed rate. Default is 1.0.
+        half_tone (float): additional half-tone. Default is 0.
 
     Returns:
         np.ndarray: speech waveform (dtype: np.float64)
@@ -113,20 +115,24 @@ def synthesize(labels):
     if _global_htsengine is None:
         _global_htsengine = HTSEngine(DEFAULT_HTS_VOICE)
     sr = _global_htsengine.get_sampling_frequency()
+    _global_htsengine.set_speed(speed)
+    _global_htsengine.add_half_tone(half_tone)
     return _global_htsengine.synthesize(labels), sr
 
 
-def tts(text):
+def tts(text, speed=1.0, half_tone=0.0):
     """Text-to-speech
 
     Args:
         text (str): Input text
+        speed (float): speech speed rate. Default is 1.0.
+        half_tone (float): additional half-tone. Default is 0.
 
     Returns:
         np.ndarray: speech waveform (dtype: np.float64)
         int: sampling frequency (defualt: 48000)
     """
-    return synthesize(extract_fullcontext(text))
+    return synthesize(extract_fullcontext(text), speed, half_tone)
 
 
 def run_frontend(text, verbose=0):

@@ -14,6 +14,7 @@ from htsengine cimport HTS_Engine
 from htsengine cimport (
     HTS_Engine_initialize, HTS_Engine_load, HTS_Engine_clear, HTS_Engine_refresh,
     HTS_Engine_get_sampling_frequency, HTS_Engine_get_fperiod,
+    HTS_Engine_set_speed, HTS_Engine_add_half_tone,
     HTS_Engine_synthesize_from_strings,
     HTS_Engine_get_generated_speech, HTS_Engine_get_nsamples
 )
@@ -46,6 +47,22 @@ cdef class HTSEngine(object):
     def get_fperiod(self):
         """Get frame period"""
         return HTS_Engine_get_fperiod(self.engine)
+
+    def set_speed(self, speed=1.0):
+        """Set speed
+
+        Args:
+            speed (float): speed
+        """
+        HTS_Engine_set_speed(self.engine, speed)
+
+    def add_half_tone(self, half_tone=0.0):
+        """Additional half tone in log-f0
+
+        Args:
+            half_tone (float): additional half tone
+        """
+        HTS_Engine_add_half_tone(self.engine, half_tone)
 
     def synthesize(self, list labels):
         """Synthesize waveform from list of full-context labels

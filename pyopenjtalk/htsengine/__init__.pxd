@@ -17,3 +17,6 @@ cdef extern from "HTS_engine.h":
     char HTS_Engine_synthesize_from_fn(HTS_Engine * engine, const char *fn)
     double HTS_Engine_get_generated_speech(HTS_Engine * engine, size_t index)
     size_t HTS_Engine_get_nsamples(HTS_Engine * engine)
+
+    void HTS_Engine_set_speed(HTS_Engine * engine, double f)
+    void HTS_Engine_add_half_tone(HTS_Engine * engine, double f)
