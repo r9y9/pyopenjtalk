@@ -54,7 +54,6 @@ extensions = [
     "sphinx.ext.githubpages",
     "sphinx.ext.napoleon",
     "nbsphinx",
-    "IPython.sphinxext.ipython_console_highlighting",
 ]
 
 autodoc_member_order = "bysource"

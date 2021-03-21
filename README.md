@@ -42,6 +42,8 @@ git submodule update --recursive --init
 
 ## Quick demo
 
+Please chech the notebook version [here (nbviewer)](https://nbviewer.jupyter.org/github/r9y9/pyopenjtalk/blob/master/docs/notebooks/Demo.ipynb).
+
 ### TTS
 
 ```py
