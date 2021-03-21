@@ -1,7 +1,6 @@
 language: python
 
 python:
-  - "3.6"
   - "3.7"
   - "3.8"
 
@@ -10,22 +9,8 @@ notifications:
 
 os:
   - linux
-#  - osx
 
 before_install:
-  - export LD_LIBRARY_PATH=/usr/local/lib
-  # hts_engine_API
-  - cd $HOME
-  - git clone https://github.com/r9y9/hts_engine_API.git && cd hts_engine_API/src
-  - sudo ./waf configure build
-  - sudo ./waf install
-  # open_jtalk
-  - cd $HOME
-  - git clone https://github.com/r9y9/open_jtalk.git && cd open_jtalk/src
-  - mkdir -p build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
-  - make -j
-  - sudo make install
   # anaconda
   - if [["$TRAVIS_PYTHON_VERSION" == "2.7"]]; then
       wget http://repo.continuum.io/miniconda/Miniconda-3.8.3-Linux-x86_64.sh -O miniconda.sh;
