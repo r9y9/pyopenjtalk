@@ -28,14 +28,14 @@ before_install:
   - deps='pip numpy scipy cython nose pytorch'
   - conda create -q -n test-environment "python=$TRAVIS_PYTHON_VERSION" $deps -c pytorch
   - source activate test-environment
-  - pip install flake8 travis-sphinx
+  - pip install flake8 pytest travis-sphinx
   - cd $TRAVIS_BUILD_DIR
 
 install:
   - pip install -e ".[test,docs]"
 
 script:
-  - nosetests -s -v -w tests/ -a '!local_only'
+  - pytest -v -s
   - flake8
   - travis-sphinx build --source=docs
 

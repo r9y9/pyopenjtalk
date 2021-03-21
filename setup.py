@@ -176,7 +176,7 @@ setup(
     tests_require=["nose", "coverage"],
     extras_require={
         "docs": ["sphinx_rtd_theme"],
-        "test": ["nose", "scipy"],
+        "test": ["pytest", "scipy"],
     },
     classifiers=[
         "Operating System :: POSIX",
