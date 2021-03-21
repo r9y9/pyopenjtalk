@@ -1,4 +1,3 @@
-# coding: utf-8
 import pyopenjtalk
 
 
@@ -18,10 +17,12 @@ def test_hello():
 
 
 def test_jtalk():
-    for text in ["今日も良い天気ですね",
-                 "こんにちは。",
-                 "どんまい！",
-                 "パソコンのとりあえず知っておきたい使い方", ]:
+    for text in [
+        "今日も良い天気ですね",
+        "こんにちは。",
+        "どんまい！",
+        "パソコンのとりあえず知っておきたい使い方",
+    ]:
         njd_results, labels = pyopenjtalk.run_frontend(text)
         _print_results(njd_results, labels)
 
