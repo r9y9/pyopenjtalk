@@ -16,6 +16,13 @@ def test_hello():
     _print_results(njd_results, labels)
 
 
+def test_fullcontext():
+    _, labels = pyopenjtalk.run_frontend("こんにちは")
+    labels2 = pyopenjtalk.extract_fullcontext("こんにちは")
+    for a, b in zip(labels, labels2):
+        assert a == b
+
+
 def test_jtalk():
     for text in [
         "今日も良い天気ですね",

@@ -9,7 +9,13 @@ def test_tts():
 
 
 def test_htsengine():
-    _, labels = pyopenjtalk.run_frontend("こんちゃ")
-    x, sr = pyopenjtalk.run_backend(labels)
+    labels = pyopenjtalk.extract_fullcontext("こんちゃ")
+    x, sr = pyopenjtalk.synthesize(labels)
+    assert x.dtype == np.float64
+    assert sr == 48000
+
+
+def test_htsengine_pip():
+    x, sr = pyopenjtalk.synthesize(pyopenjtalk.extract_fullcontext("こんちゃ"))
     assert x.dtype == np.float64
     assert sr == 48000
