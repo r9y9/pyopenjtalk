@@ -34,15 +34,23 @@ The python package relies on cython to make python bindings for open_jtalk and h
 pip install pyopenjtalk
 ```
 
+## Development
+
 To build the package locally, you will need to make sure to clone open_jtalk and hts_engine_API.
 
 ```
 git submodule update --recursive --init
 ```
 
+and then run
+
+```
+pip install -e .
+```
+
 ## Quick demo
 
-Please chech the notebook version [here (nbviewer)](https://nbviewer.jupyter.org/github/r9y9/pyopenjtalk/blob/master/docs/notebooks/Demo.ipynb).
+Please check the notebook version [here (nbviewer)](https://nbviewer.jupyter.org/github/r9y9/pyopenjtalk/blob/master/docs/notebooks/Demo.ipynb).
 
 ### TTS
 
