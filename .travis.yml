@@ -11,6 +11,8 @@ os:
   - linux
 
 before_install:
+  # pandoc
+  - sudo apt-get -y install pandoc
   # anaconda
   - wget http://repo.continuum.io/miniconda/Miniconda3-3.8.3-Linux-x86_64.sh -O miniconda.sh
   - bash miniconda.sh -b -p $HOME/miniconda
