@@ -31,3 +31,12 @@ Out[2]: 'k o N n i ch i w a'
 In [3]: pyopenjtalk.g2p("こんにちは", kana=True)
 Out[3]: 'コンニチワ'
 ```
+
+## LISENCE
+
+- pyopenjtalk: MIT license ([LICENSE.md](LICENSE.md))
+
+## LISENCE for third party libraries
+
+- Open JTalk: Modified BSD license ([COPYING](https://github.com/r9y9/open_jtalk/blob/1.10/src/COPYING))
+- htsvoice in this repository: Please check [pyopenjtalk/htsvoice/README.md](pyopenjtalk/htsvoice/README.md).
