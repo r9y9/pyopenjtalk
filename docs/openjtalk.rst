@@ -1,7 +1,7 @@
 pyopenjtalk.openjtalk
 =====================
 
-The core cython module.
+The core cython module for OpenJTalk's text processing frontend.
 
 .. automodule:: pyopenjtalk.openjtalk
 
