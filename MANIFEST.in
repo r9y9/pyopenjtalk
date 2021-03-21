@@ -1,2 +1,3 @@
 include README.md LICENSE.md
 recursive-include pyopenjtalk *.cpp *.pxd *.md *.pyx
+recursive-include lib *.cpp *.c *.h README LICENSE COPYING
