@@ -10,7 +10,7 @@ import setuptools.command.build_py
 import setuptools.command.develop
 from setuptools import Extension, find_packages, setup
 
-version = "0.0.3"
+version = "0.1.0"
 
 min_cython_ver = "0.21.0"
 try:
