@@ -175,7 +175,7 @@ setup(
     ],
     tests_require=["nose", "coverage"],
     extras_require={
-        "docs": ["sphinx_rtd_theme", "nbsphinx", "pandoc"],
+        "docs": ["sphinx_rtd_theme", "nbsphinx", "pandoc", "ipython", "jupyter"],
         "test": ["pytest", "scipy"],
     },
     classifiers=[
