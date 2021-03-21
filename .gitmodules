@@ -1,3 +1,6 @@
 [submodule "lib/open_jtalk"]
 	path = lib/open_jtalk
 	url = https://github.com/r9y9/open_jtalk.git
+[submodule "lib/hts_engine_API"]
+	path = lib/hts_engine_API
+	url = https://github.com/r9y9/hts_engine_API.git
