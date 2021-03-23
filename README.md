@@ -28,6 +28,13 @@ The python package relies on cython to make python bindings for open_jtalk and h
 - cmake
 - cython
 
+## Supported platforms
+
+- Linux
+- Mac OSX
+
+Windows is not supported yet https://github.com/r9y9/pyopenjtalk/issues/10.
+
 ## Installation
 
 ```
