@@ -24,7 +24,6 @@ except ImportError:
 try:
     if not _CYTHON_INSTALLED:
         raise ImportError("No supported version of Cython installed.")
-    from Cython.Build import cythonize
     from Cython.Distutils import build_ext
 
     cython = True
