@@ -40,6 +40,12 @@ Please check the usage through the demo notebook.
   openjtalk
   htsengine
 
+.. toctree::
+    :maxdepth: 1
+    :caption: Meta information
+
+    changelog
+
 Indices and tables
 ==================
 

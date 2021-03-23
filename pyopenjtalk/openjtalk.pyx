@@ -93,6 +93,9 @@ cdef njd_print(_njd.NJD* njd):
 
 cdef class OpenJTalk(object):
     """OpenJTalk
+
+    Args:
+        dn_mecab (bytes): Dictionaly path for MeCab.
     """
     cdef Mecab* mecab
     cdef NJD* njd

@@ -21,10 +21,13 @@ from htsengine cimport (
 
 cdef class HTSEngine(object):
     """HTSEngine
+
+    Args:
+        voice (bytes): File path of htsvoice.
     """
     cdef HTS_Engine* engine
 
-    def __cinit__(self, voice=b"htsvoice/mei_normal.htsvoice"):
+    def __cinit__(self, bytes voice=b"htsvoice/mei_normal.htsvoice"):
         self.engine = new HTS_Engine()
 
         HTS_Engine_initialize(self.engine)
