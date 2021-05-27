@@ -1,6 +1,13 @@
 Change log
 ==========
 
+v0.1.1 <2021-05-28>
+-------------------
+
+Bug fix release for numpy <v1.20.0
+
+https://github.com/ymd-h/cpprb/discussions/3
+
 v0.1.0 <2021-03-24>
 -------------------
 
