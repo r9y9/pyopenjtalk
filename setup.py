@@ -1,7 +1,9 @@
 import os
 import subprocess
+import sys
 from distutils.version import LooseVersion
 from glob import glob
+from itertools import chain
 from os.path import exists, join
 from subprocess import run
 
@@ -9,6 +11,8 @@ import numpy as np
 import setuptools.command.build_py
 import setuptools.command.develop
 from setuptools import Extension, find_packages, setup
+
+platform_is_windows = sys.platform == "win32"
 
 version = "0.1.2"
 
@@ -26,13 +30,57 @@ try:
         raise ImportError("No supported version of Cython installed.")
     from Cython.Distutils import build_ext
 
+    msvc_extra_compile_args_config = [
+        "/source-charset:utf-8",
+        "/execution-charset:utf-8",
+    ]
+
+    # escape double quotes for msvc
+    def msvc_string_macro_arg(s):
+        n = len(s)
+        return (
+            s.replace('\\', '\\\\').replace('"', '\\"')
+            if n >= 2 and s.startswith('"') and s.endswith('"')
+            else s
+        )
+
+    def msvc_macro(x):
+        (k, arg) = x
+        return (k, msvc_string_macro_arg(arg)) if type(arg) == str else x
+
+    def msvc_define_macros(macros):
+        return list(map(msvc_macro, macros))
+
+    def msvc_extra_compile_args(compile_args):
+        cas = set(compile_args)
+        xs = filter(lambda x: x not in cas, msvc_extra_compile_args_config)
+        return list(chain(compile_args, xs))
+
+    def msvc_extension(ext):
+        ext.define_macros = msvc_define_macros(
+            ext.define_macros if hasattr(ext, 'define_macros') else []
+        )
+
+        ext.extra_compile_args = msvc_extra_compile_args(
+            ext.extra_compile_args if hasattr(ext, 'extra_compile_args') else []
+        )
+
+    class custom_build_ext(build_ext):
+        def build_extensions(self):
+            compiler_type_is_msvc = self.compiler.compiler_type == "msvc"
+            for entry in self.extensions:
+                if compiler_type_is_msvc:
+                    msvc_extension(entry)
+
+            build_ext.build_extensions(self)
+
     cython = True
 except ImportError:
     cython = False
 
 if cython:
     ext = ".pyx"
-    cmdclass = {"build_ext": build_ext}
+    cmdclass = {"build_ext": custom_build_ext}
 else:
     ext = ".cpp"
     cmdclass = {}
@@ -104,6 +152,7 @@ ext_modules += [
         include_dirs=[np.get_include(), join(htsengine_src_top, "include")],
         extra_compile_args=[],
         extra_link_args=[],
+        libraries=["winmm"] if platform_is_windows else [],
         language="c++",
     )
 ]
@@ -150,7 +199,7 @@ cmdclass["build_py"] = build_py
 cmdclass["develop"] = develop
 
 
-with open("README.md", "r") as fd:
+with open("README.md", "r", encoding="utf8") as fd:
     long_description = fd.read()
 
 setup(
