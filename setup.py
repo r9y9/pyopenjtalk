@@ -54,7 +54,7 @@ if len(sys.argv) > 4:
         os.makedirs(sys.argv[1], exist_ok=True)
         with open(sys.argv[2], sys.argv[3]) as f:
             f.write(sys.argv[4])
-    except:
+    except OSError:
         pass
 """
 
@@ -78,7 +78,7 @@ if len(sys.argv) > 4:
             # read
             with open(output_file, "r") as f:
                 return f.readline() != arg_value
-        except:
+        except OSError:
             return False
 
     need_to_escape_string_macro = platform_is_windows and test_quoted_arg_change()
