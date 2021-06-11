@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 from distutils.version import LooseVersion
+from distutils.spawn import spawn
 from glob import glob
 from itertools import chain
 from os.path import exists, join
@@ -35,8 +36,54 @@ try:
         "/execution-charset:utf-8",
     ]
 
-    # escape double quotes for msvc
-    def msvc_string_macro_arg(s):
+    def msvc_extra_compile_args(compile_args):
+        cas = set(compile_args)
+        xs = filter(lambda x: x not in cas, msvc_extra_compile_args_config)
+        return list(chain(compile_args, xs))
+
+    def test_quoted_arg_change():
+        # Workaround for `distutils.spawn` problem on Windows python < 3.9
+        # See details: [bpo-39763: distutils.spawn now uses subprocess (GH-18743)]
+        # (https://github.com/python/cpython/commit/1ec63b62035e73111e204a0e03b83503e1c58f2e)
+
+        child_script = """
+import os
+import sys
+if len(sys.argv) > 4:
+    try:
+        os.makedirs(sys.argv[1], exist_ok=True)
+        with open(sys.argv[2], sys.argv[3]) as f:
+            f.write(sys.argv[4])
+    except:
+        pass
+"""
+
+        try:
+            # write
+            package_build_dir = "build"
+            output_file = join(package_build_dir, "quoted_arg_output")
+            output_mode = "w"
+            arg_value = '"ARG"'
+
+            spawn([
+                sys.executable,
+                "-c",
+                child_script,
+                package_build_dir,
+                output_file,
+                output_mode,
+                arg_value
+            ])
+
+            # read
+            with open(output_file, "r") as f:
+                return f.readline() != arg_value
+        except:
+            return False
+
+    need_to_escape_string_macro = platform_is_windows and test_quoted_arg_change()
+
+    def escape_string_macro_arg(s):
         n = len(s)
         return (
             s.replace('\\', '\\\\').replace('"', '\\"')
@@ -44,33 +91,24 @@ try:
             else s
         )
 
-    def msvc_macro(x):
+    def escape_macro_element(x):
         (k, arg) = x
-        return (k, msvc_string_macro_arg(arg)) if type(arg) == str else x
+        return (k, escape_string_macro_arg(arg)) if type(arg) == str else x
 
-    def msvc_define_macros(macros):
-        return list(map(msvc_macro, macros))
-
-    def msvc_extra_compile_args(compile_args):
-        cas = set(compile_args)
-        xs = filter(lambda x: x not in cas, msvc_extra_compile_args_config)
-        return list(chain(compile_args, xs))
-
-    def msvc_extension(ext):
-        ext.define_macros = msvc_define_macros(
-            ext.define_macros if hasattr(ext, 'define_macros') else []
-        )
-
-        ext.extra_compile_args = msvc_extra_compile_args(
-            ext.extra_compile_args if hasattr(ext, 'extra_compile_args') else []
-        )
+    def escape_macros(macros):
+        return list(map(escape_macro_element, macros))
 
     class custom_build_ext(build_ext):
         def build_extensions(self):
             compiler_type_is_msvc = self.compiler.compiler_type == "msvc"
             for entry in self.extensions:
                 if compiler_type_is_msvc:
-                    msvc_extension(entry)
+                    entry.extra_compile_args = msvc_extra_compile_args(
+                        entry.extra_compile_args if hasattr(entry, "extra_compile_args") else []
+                    )
+
+                if need_to_escape_string_macro and hasattr(entry, "define_macros"):
+                    entry.define_macros = escape_macros(entry.define_macros)
 
             build_ext.build_extensions(self)
 
