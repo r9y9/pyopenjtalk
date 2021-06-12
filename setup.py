@@ -49,11 +49,11 @@ try:
         child_script = """
 import os
 import sys
-if len(sys.argv) > 4:
+if len(sys.argv) > 5:
     try:
         os.makedirs(sys.argv[1], exist_ok=True)
-        with open(sys.argv[2], sys.argv[3]) as f:
-            f.write(sys.argv[4])
+        with open(sys.argv[2], mode=sys.argv[3], encoding=sys.argv[4]) as f:
+            f.write(sys.argv[5])
     except OSError:
         pass
 """
@@ -63,6 +63,7 @@ if len(sys.argv) > 4:
             package_build_dir = "build"
             output_file = join(package_build_dir, "quoted_arg_output")
             output_mode = "w"
+            output_encoding = "utf8"
             arg_value = '"ARG"'
 
             spawn([
@@ -72,11 +73,12 @@ if len(sys.argv) > 4:
                 package_build_dir,
                 output_file,
                 output_mode,
+                output_encoding,
                 arg_value
             ])
 
             # read
-            with open(output_file, "r") as f:
+            with open(output_file, mode="r", encoding=output_encoding) as f:
                 return f.readline() != arg_value
         except OSError:
             return False
