@@ -26,79 +26,21 @@ try:
 except ImportError:
     _CYTHON_INSTALLED = False
 
+
+msvc_extra_compile_args_config = [
+    "/source-charset:utf-8",
+    "/execution-charset:utf-8",
+]
+
 try:
     if not _CYTHON_INSTALLED:
         raise ImportError("No supported version of Cython installed.")
     from Cython.Distutils import build_ext
 
-    msvc_extra_compile_args_config = [
-        "/source-charset:utf-8",
-        "/execution-charset:utf-8",
-    ]
-
     def msvc_extra_compile_args(compile_args):
         cas = set(compile_args)
         xs = filter(lambda x: x not in cas, msvc_extra_compile_args_config)
         return list(chain(compile_args, xs))
-
-    def test_quoted_arg_change():
-        # Workaround for `distutils.spawn` problem on Windows python < 3.9
-        # See details: [bpo-39763: distutils.spawn now uses subprocess (GH-18743)]
-        # (https://github.com/python/cpython/commit/1ec63b62035e73111e204a0e03b83503e1c58f2e)
-
-        child_script = """
-import os
-import sys
-if len(sys.argv) > 5:
-    try:
-        os.makedirs(sys.argv[1], exist_ok=True)
-        with open(sys.argv[2], mode=sys.argv[3], encoding=sys.argv[4]) as f:
-            f.write(sys.argv[5])
-    except OSError:
-        pass
-"""
-
-        try:
-            # write
-            package_build_dir = "build"
-            output_file = join(package_build_dir, "quoted_arg_output")
-            output_mode = "w"
-            output_encoding = "utf8"
-            arg_value = '"ARG"'
-
-            spawn([
-                sys.executable,
-                "-c",
-                child_script,
-                package_build_dir,
-                output_file,
-                output_mode,
-                output_encoding,
-                arg_value
-            ])
-
-            # read
-            with open(output_file, mode="r", encoding=output_encoding) as f:
-                return f.readline() != arg_value
-        except OSError:
-            return False
-
-    need_to_escape_string_macro = platform_is_windows and test_quoted_arg_change()
-
-    def escape_string_macro_arg(s):
-        n = len(s)
-        return (
-            s.replace('\\', '\\\\').replace('"', '\\"')
-            if n >= 2 and s.startswith('"') and s.endswith('"')
-            else s
-        )
-
-    def escape_macro_element(x):
-        (k, arg) = x
-        return (k, escape_string_macro_arg(arg)) if type(arg) == str else x
-
-    def escape_macros(macros):
-        return list(map(escape_macro_element, macros))
 
     class custom_build_ext(build_ext):
         def build_extensions(self):
@@ -106,11 +48,10 @@ if len(sys.argv) > 5:
             for entry in self.extensions:
                 if compiler_type_is_msvc:
                     entry.extra_compile_args = msvc_extra_compile_args(
-                        entry.extra_compile_args if hasattr(entry, "extra_compile_args") else []
+                        entry.extra_compile_args
+                        if hasattr(entry, "extra_compile_args")
+                        else []
                     )
-
-                if need_to_escape_string_macro and hasattr(entry, "define_macros"):
-                    entry.define_macros = escape_macros(entry.define_macros)
 
             build_ext.build_extensions(self)
 
@@ -126,6 +67,69 @@ else:
     cmdclass = {}
     if not os.path.exists(join("pyopenjtalk", "openjtalk" + ext)):
         raise RuntimeError("Cython is required to generate C++ code")
+
+
+# Workaround for `distutils.spawn` problem on Windows python < 3.9
+# See details: [bpo-39763: distutils.spawn now uses subprocess (GH-18743)]
+# (https://github.com/python/cpython/commit/1ec63b62035e73111e204a0e03b83503e1c58f2e)
+def test_quoted_arg_change():
+    child_script = """
+import os
+import sys
+if len(sys.argv) > 5:
+    try:
+        os.makedirs(sys.argv[1], exist_ok=True)
+        with open(sys.argv[2], mode=sys.argv[3], encoding=sys.argv[4]) as fd:
+            fd.write(sys.argv[5])
+    except OSError:
+        pass
+"""
+
+    try:
+        # write
+        package_build_dir = "build"
+        file_name = join(package_build_dir, "quoted_arg_output")
+        output_mode = "w"
+        file_encoding = "utf8"
+        arg_value = '"ARG"'
+
+        spawn([
+            sys.executable,
+            "-c",
+            child_script,
+            package_build_dir,
+            file_name,
+            output_mode,
+            file_encoding,
+            arg_value
+        ])
+
+        # read
+        with open(file_name, mode="r", encoding=file_encoding) as fd:
+            return fd.readline() != arg_value
+    except Exception:
+        return False
+
+
+def escape_string_macro_arg(s):
+    return s.replace('\\', '\\\\').replace('"', '\\"')
+
+
+def escape_macro_element(x):
+    (k, arg) = x
+    return (k, escape_string_macro_arg(arg)) if type(arg) == str else x
+
+
+def escape_macros(macros):
+    return list(map(escape_macro_element, macros))
+
+
+define_macros = (
+    escape_macros
+    if platform_is_windows and test_quoted_arg_change()
+    else (lambda macros: macros)
+)
+
 
 # open_jtalk sources
 src_top = join("lib", "open_jtalk", "src")
@@ -171,14 +175,14 @@ ext_modules = [
         extra_compile_args=[],
         extra_link_args=[],
         language="c++",
-        define_macros=[
+        define_macros=define_macros([
             ("HAVE_CONFIG_H", None),
             ("DIC_VERSION", 102),
             ("MECAB_DEFAULT_RC", '"dummy"'),
             ("PACKAGE", '"open_jtalk"'),
             ("VERSION", '"1.10"'),
             ("CHARSET_UTF_8", None),
-        ],
+        ]),
     )
 ]
 
