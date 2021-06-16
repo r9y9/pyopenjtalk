@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+from distutils.errors import DistutilsExecError
 from distutils.version import LooseVersion
 from distutils.spawn import spawn
 from glob import glob
@@ -37,6 +38,13 @@ try:
         raise ImportError("No supported version of Cython installed.")
     from Cython.Distutils import build_ext
 
+    cython = True
+except ImportError:
+    cython = False
+
+if cython:
+    ext = ".pyx"
+
     def msvc_extra_compile_args(compile_args):
         cas = set(compile_args)
         xs = filter(lambda x: x not in cas, msvc_extra_compile_args_config)
@@ -55,12 +63,6 @@ try:
 
             build_ext.build_extensions(self)
 
-    cython = True
-except ImportError:
-    cython = False
-
-if cython:
-    ext = ".pyx"
     cmdclass = {"build_ext": custom_build_ext}
 else:
     ext = ".cpp"
@@ -107,7 +109,7 @@ if len(sys.argv) > 5:
         # read
         with open(file_name, mode="r", encoding=file_encoding) as fd:
             return fd.readline() != arg_value
-    except Exception:
+    except (DistutilsExecError, TypeError):
         return False
 
 
@@ -124,7 +126,7 @@ def escape_macros(macros):
     return list(map(escape_macro_element, macros))
 
 
-define_macros = (
+custom_define_macros = (
     escape_macros
     if platform_is_windows and test_quoted_arg_change()
     else (lambda macros: macros)
@@ -175,7 +177,7 @@ ext_modules = [
         extra_compile_args=[],
         extra_link_args=[],
         language="c++",
-        define_macros=define_macros([
+        define_macros=custom_define_macros([
             ("HAVE_CONFIG_H", None),
             ("DIC_VERSION", 102),
             ("MECAB_DEFAULT_RC", '"dummy"'),
