@@ -1,6 +1,11 @@
 Change log
 ==========
 
+v0.1.2 <2021-08-04>
+-------------------
+
+* `#13`_: Windows MSVC support
+
 v0.1.1 <2021-05-28>
 -------------------
 
@@ -35,3 +40,4 @@ Initial release with OpenJTalk's text processsing functionality
 .. _#7: https://github.com/r9y9/pyopenjtalk/issues/7
 .. _#8: https://github.com/r9y9/pyopenjtalk/pull/8
 .. _#9: https://github.com/r9y9/pyopenjtalk/pull/9
+.. _#13: https://github.com/r9y9/pyopenjtalk/pull/13
