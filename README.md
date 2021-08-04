@@ -32,8 +32,7 @@ The python package relies on cython to make python bindings for open_jtalk and h
 
 - Linux
 - Mac OSX
-
-Windows is not supported yet https://github.com/r9y9/pyopenjtalk/issues/10.
+- Windows (MSVC) (see [this PR](https://github.com/r9y9/pyopenjtalk/pull/13))
 
 ## Installation
 
