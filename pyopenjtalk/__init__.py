@@ -24,7 +24,7 @@ from .openjtalk import OpenJTalk
 OPEN_JTALK_DICT_DIR = os.environ.get(
     "OPEN_JTALK_DICT_DIR",
     pkg_resources.resource_filename(__name__, "open_jtalk_dic_utf_8-1.11"),
-).encode("ascii")
+).encode("utf-8")
 _DICT_URL = (
     "https://downloads.sourceforge.net/open-jtalk/open_jtalk_dic_utf_8-1.11.tar.gz"
 )
@@ -32,7 +32,7 @@ _DICT_URL = (
 # Default mei_normal.voice for HMM-based TTS
 DEFAULT_HTS_VOICE = pkg_resources.resource_filename(
     __name__, "htsvoice/mei_normal.htsvoice"
-).encode("ascii")
+).encode("utf-8")
 
 # Global instance of OpenJTalk
 _global_jtalk = None
@@ -51,7 +51,7 @@ def _extract_dic():
         f.extractall(path=pkg_resources.resource_filename(__name__, ""))
     OPEN_JTALK_DICT_DIR = pkg_resources.resource_filename(
         __name__, "open_jtalk_dic_utf_8-1.11"
-    ).encode("ascii")
+    ).encode("utf-8")
     os.remove(filename)
 
 
