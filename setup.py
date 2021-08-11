@@ -95,16 +95,18 @@ if len(sys.argv) > 5:
         file_encoding = "utf8"
         arg_value = '"ARG"'
 
-        spawn([
-            sys.executable,
-            "-c",
-            child_script,
-            package_build_dir,
-            file_name,
-            output_mode,
-            file_encoding,
-            arg_value
-        ])
+        spawn(
+            [
+                sys.executable,
+                "-c",
+                child_script,
+                package_build_dir,
+                file_name,
+                output_mode,
+                file_encoding,
+                arg_value,
+            ]
+        )
 
         # read
         with open(file_name, mode="r", encoding=file_encoding) as fd:
@@ -114,7 +116,7 @@ if len(sys.argv) > 5:
 
 
 def escape_string_macro_arg(s):
-    return s.replace('\\', '\\\\').replace('"', '\\"')
+    return s.replace("\\", "\\\\").replace('"', '\\"')
 
 
 def escape_macro_element(x):
@@ -177,14 +179,16 @@ ext_modules = [
         extra_compile_args=[],
         extra_link_args=[],
         language="c++",
-        define_macros=custom_define_macros([
-            ("HAVE_CONFIG_H", None),
-            ("DIC_VERSION", 102),
-            ("MECAB_DEFAULT_RC", '"dummy"'),
-            ("PACKAGE", '"open_jtalk"'),
-            ("VERSION", '"1.10"'),
-            ("CHARSET_UTF_8", None),
-        ]),
+        define_macros=custom_define_macros(
+            [
+                ("HAVE_CONFIG_H", None),
+                ("DIC_VERSION", 102),
+                ("MECAB_DEFAULT_RC", '"dummy"'),
+                ("PACKAGE", '"open_jtalk"'),
+                ("VERSION", '"1.10"'),
+                ("CHARSET_UTF_8", None),
+            ]
+        ),
     )
 ]
 
@@ -269,7 +273,23 @@ setup(
     ],
     tests_require=["nose", "coverage"],
     extras_require={
-        "docs": ["sphinx_rtd_theme", "nbsphinx>=0.8.6", "Jinja2>=3.0.1", "pandoc", "ipython", "jupyter"],
+        "docs": [
+            "sphinx_rtd_theme",
+            "nbsphinx>=0.8.6",
+            "Jinja2>=3.0.1",
+            "pandoc",
+            "ipython",
+            "jupyter",
+        ],
+        "lint": [
+            "pysen",
+            "types-setuptools",
+            "mypy<=0.910",
+            "black>=19.19b0,<=20.8",
+            "flake8>=3.7,<4",
+            "flake8-bugbear",
+            "isort>=4.3,<5.2.0",
+        ],
         "test": ["pytest", "scipy"],
     },
     classifiers=[
