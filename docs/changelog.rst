@@ -4,6 +4,7 @@ Change log
 v0.1.3 <2021-08-11>
 -------------------
 
+* `#16`_: Enable pysen on CI
 * `#15`_: Support path that including multibyte-characters
 
 v0.1.2 <2021-08-04>
@@ -47,3 +48,4 @@ Initial release with OpenJTalk's text processsing functionality
 .. _#9: https://github.com/r9y9/pyopenjtalk/pull/9
 .. _#13: https://github.com/r9y9/pyopenjtalk/pull/13
 .. _#15: https://github.com/r9y9/pyopenjtalk/pull/15
+.. _#16: https://github.com/r9y9/pyopenjtalk/pull/16
