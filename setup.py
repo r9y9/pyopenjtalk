@@ -2,8 +2,8 @@ import os
 import subprocess
 import sys
 from distutils.errors import DistutilsExecError
-from distutils.version import LooseVersion
 from distutils.spawn import spawn
+from distutils.version import LooseVersion
 from glob import glob
 from itertools import chain
 from os.path import exists, join
@@ -16,7 +16,7 @@ from setuptools import Extension, find_packages, setup
 
 platform_is_windows = sys.platform == "win32"
 
-version = "0.1.3a0"
+version = "0.1.3"
 
 min_cython_ver = "0.21.0"
 try:
