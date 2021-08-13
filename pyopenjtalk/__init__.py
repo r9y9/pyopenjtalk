@@ -16,15 +16,19 @@ try:
 except ImportError:
     raise ImportError("BUG: version.py doesn't exist. Please file a bug report.")
 
+import locale
+
 from .htsengine import HTSEngine
 from .openjtalk import OpenJTalk
+
+path_encoding = locale.getpreferredencoding()
 
 # Dictionary directory
 # defaults to the package directory where the dictionary will be automatically downloaded
 OPEN_JTALK_DICT_DIR = os.environ.get(
     "OPEN_JTALK_DICT_DIR",
     pkg_resources.resource_filename(__name__, "open_jtalk_dic_utf_8-1.11"),
-).encode("utf-8")
+)
 _DICT_URL = (
     "https://downloads.sourceforge.net/open-jtalk/open_jtalk_dic_utf_8-1.11.tar.gz"
 )
@@ -32,7 +36,7 @@ _DICT_URL = (
 # Default mei_normal.voice for HMM-based TTS
 DEFAULT_HTS_VOICE = pkg_resources.resource_filename(
     __name__, "htsvoice/mei_normal.htsvoice"
-).encode("utf-8")
+)
 
 # Global instance of OpenJTalk
 _global_jtalk = None
@@ -51,7 +55,7 @@ def _extract_dic():
         f.extractall(path=pkg_resources.resource_filename(__name__, ""))
     OPEN_JTALK_DICT_DIR = pkg_resources.resource_filename(
         __name__, "open_jtalk_dic_utf_8-1.11"
-    ).encode("utf-8")
+    )
     os.remove(filename)
 
 
@@ -78,7 +82,7 @@ def g2p(*args, **kwargs):
     global _global_jtalk
     if _global_jtalk is None:
         _lazy_init()
-        _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR)
+        _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR.encode(path_encoding))
     return _global_jtalk.g2p(*args, **kwargs)
 
 
@@ -113,7 +117,7 @@ def synthesize(labels, speed=1.0, half_tone=0.0):
 
     global _global_htsengine
     if _global_htsengine is None:
-        _global_htsengine = HTSEngine(DEFAULT_HTS_VOICE)
+        _global_htsengine = HTSEngine(DEFAULT_HTS_VOICE.encode(path_encoding))
     sr = _global_htsengine.get_sampling_frequency()
     _global_htsengine.set_speed(speed)
     _global_htsengine.add_half_tone(half_tone)
@@ -149,5 +153,5 @@ def run_frontend(text, verbose=0):
     global _global_jtalk
     if _global_jtalk is None:
         _lazy_init()
-        _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR)
+        _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR.encode(path_encoding))
     return _global_jtalk.run_frontend(text, verbose)
