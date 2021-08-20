@@ -3,6 +3,7 @@ from os.path import exists
 
 import pkg_resources
 import six
+from tqdm.auto import tqdm
 
 if six.PY2:
     from urllib import urlretrieve
@@ -41,11 +42,27 @@ _global_jtalk = None
 _global_htsengine = None
 
 
+# https://github.com/tqdm/tqdm#hooks-and-callbacks
+class _TqdmUpTo(tqdm):  # type: ignore
+    def update_to(self, b=1, bsize=1, tsize=None):
+        if tsize is not None:
+            self.total = tsize
+        return self.update(b * bsize - self.n)
+
+
 def _extract_dic():
     global OPEN_JTALK_DICT_DIR
     filename = pkg_resources.resource_filename(__name__, "dic.tar.gz")
     print('Downloading: "{}"'.format(_DICT_URL))
-    urlretrieve(_DICT_URL, filename)
+    with _TqdmUpTo(
+        unit="B",
+        unit_scale=True,
+        unit_divisor=1024,
+        miniters=1,
+        desc="dic.tar.gz",
+    ) as t:  # all optional kwargs
+        urlretrieve(_DICT_URL, filename, reporthook=t.update_to)
+        t.total = t.n
     print("Extracting tar file {}".format(filename))
     with tarfile.open(filename, mode="r|gz") as f:
         f.extractall(path=pkg_resources.resource_filename(__name__, ""))
