@@ -270,6 +270,7 @@ setup(
         "numpy >= 1.8.0",
         "cython >= " + min_cython_ver,
         "six",
+        "tqdm",
     ],
     tests_require=["nose", "coverage"],
     extras_require={
