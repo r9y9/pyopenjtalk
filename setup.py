@@ -147,7 +147,7 @@ if not exists(join(src_top, "mecab", "src", "config.h")):
     build_dir = join(src_top, "build")
     os.makedirs(build_dir, exist_ok=True)
     os.chdir(build_dir)
-    r = run(["make", ".."])
+    r = run(["cmake", ".."])
     r.check_returncode()
     os.chdir(cwd)
 
