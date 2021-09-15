@@ -5,9 +5,10 @@ v0.1.4 <2021-xx-xx>
 -------------------
 
 * `#22`_: Make CMake work properly so that it can be built on Windows
+* `#21`_: Don't include mecab/config.h for release tar balls
 * `#20`_: Raise errors if cmake fails to run
 * `#19`_: Add tqdm progress bar for dictionary download
-  
+
 v0.1.3 <2021-08-11>
 -------------------
 
@@ -58,3 +59,4 @@ Initial release with OpenJTalk's text processsing functionality
 .. _#16: https://github.com/r9y9/pyopenjtalk/pull/16
 .. _#19: https://github.com/r9y9/pyopenjtalk/pull/19
 .. _#20: https://github.com/r9y9/pyopenjtalk/issues/20
+.. _#21: https://github.com/r9y9/pyopenjtalk/issues/21
