@@ -210,6 +210,11 @@ ext_modules += [
         extra_link_args=[],
         libraries=["winmm"] if platform_is_windows else [],
         language="c++",
+        define_macros=custom_define_macros(
+            [
+                ("AUDIO_PLAY_NONE", None),
+            ]
+        ),
     )
 ]
 
