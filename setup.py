@@ -147,7 +147,12 @@ if not exists(join(src_top, "mecab", "src", "config.h")):
     build_dir = join(src_top, "build")
     os.makedirs(build_dir, exist_ok=True)
     os.chdir(build_dir)
-    r = run(["cmake", ".."])
+
+    # NOTE: The wrapped OpenJTalk does not depend on HTS_Engine,
+    # but since HTSEngine is included in CMake's dependencies, it refers to a dummy path.
+    r = run(
+        ["cmake", "..", "-D", "HTS_ENGINE_INCLUDE_DIR=.", "-D", "HTS_ENGINE_LIB=dummy"]
+    )
     r.check_returncode()
     os.chdir(cwd)
 
@@ -205,6 +210,11 @@ ext_modules += [
         extra_link_args=[],
         libraries=["winmm"] if platform_is_windows else [],
         language="c++",
+        define_macros=custom_define_macros(
+            [
+                ("AUDIO_PLAY_NONE", None),
+            ]
+        ),
     )
 ]
 

@@ -4,6 +4,7 @@ Change log
 v0.1.4 <2021-xx-xx>
 -------------------
 
+* `#22`_: Make CMake work properly so that it can be built on Windows
 * `#21`_: Don't include mecab/config.h for release tar balls
 * `#20`_: Raise errors if cmake fails to run
 * `#19`_: Add tqdm progress bar for dictionary download
