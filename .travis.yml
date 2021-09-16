@@ -1,7 +1,6 @@
 language: python
 
 python:
-  - "3.7"
   - "3.8"
 
 notifications:
@@ -11,6 +10,8 @@ os:
   - linux
 
 before_install:
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
   # pandoc
   - sudo apt-get -y install pandoc
   # anaconda
@@ -25,7 +26,7 @@ before_install:
   - conda info -a
   - conda create -q -n test-environment "python=$TRAVIS_PYTHON_VERSION" pip
   - source activate test-environment
-  - pip install flake8 pytest travis-sphinx
+  - pip install pytest travis-sphinx
   - cd $TRAVIS_BUILD_DIR
 
 install:
@@ -33,7 +34,6 @@ install:
 
 script:
   - pytest -v -s
-  - flake8
   - travis-sphinx build --source=docs
 
 after_success:
