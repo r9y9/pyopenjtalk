@@ -150,9 +150,7 @@ if not exists(join(src_top, "mecab", "src", "config.h")):
 
     # NOTE: The wrapped OpenJTalk does not depend on HTS_Engine,
     # but since HTSEngine is included in CMake's dependencies, it refers to a dummy path.
-    r = run(
-        ["cmake", "..", "-D", "HTS_ENGINE_INCLUDE_DIR=.", "-D", "HTS_ENGINE_LIB=dummy"]
-    )
+    r = run(["cmake", "..", "-DHTS_ENGINE_INCLUDE_DIR=.", "-DHTS_ENGINE_LIB=dummy"])
     r.check_returncode()
     os.chdir(cwd)
 
