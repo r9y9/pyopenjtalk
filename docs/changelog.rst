@@ -1,7 +1,7 @@
 Change log
 ==========
 
-v0.1.4 <2021-xx-xx>
+v0.1.4 <2021-09-16>
 -------------------
 
 * `#22`_: Make CMake work properly so that it can be built on Windows
@@ -60,3 +60,4 @@ Initial release with OpenJTalk's text processsing functionality
 .. _#19: https://github.com/r9y9/pyopenjtalk/pull/19
 .. _#20: https://github.com/r9y9/pyopenjtalk/issues/20
 .. _#21: https://github.com/r9y9/pyopenjtalk/issues/21
+.. _#22: https://github.com/r9y9/pyopenjtalk/pull/22
