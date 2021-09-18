@@ -1,8 +1,12 @@
 Change log
 ==========
 
-v0.1.5 <2021-xx-xx>
+v0.1.5 <2021-09-18>
 -------------------
+
+* `#25`_: FIx dict URL from unstable sourceforge to github release
+* `#24`_: Fix travis CI
+
 
 v0.1.4 <2021-09-16>
 -------------------
@@ -64,3 +68,5 @@ Initial release with OpenJTalk's text processsing functionality
 .. _#20: https://github.com/r9y9/pyopenjtalk/issues/20
 .. _#21: https://github.com/r9y9/pyopenjtalk/issues/21
 .. _#22: https://github.com/r9y9/pyopenjtalk/pull/22
+.. _#24: https://github.com/r9y9/pyopenjtalk/pull/24
+.. _#25: https://github.com/r9y9/pyopenjtalk/pull/25

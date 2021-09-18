@@ -26,9 +26,8 @@ OPEN_JTALK_DICT_DIR = os.environ.get(
     "OPEN_JTALK_DICT_DIR",
     pkg_resources.resource_filename(__name__, "open_jtalk_dic_utf_8-1.11"),
 ).encode("utf-8")
-_DICT_URL = (
-    "https://downloads.sourceforge.net/open-jtalk/open_jtalk_dic_utf_8-1.11.tar.gz"
-)
+_dict_download_url = "https://github.com/r9y9/open_jtalk/releases/download/v1.11.1"
+_DICT_URL = f"{_dict_download_url}/open_jtalk_dic_utf_8-1.11.tar.gz"
 
 # Default mei_normal.voice for HMM-based TTS
 DEFAULT_HTS_VOICE = pkg_resources.resource_filename(
