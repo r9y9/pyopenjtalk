@@ -105,6 +105,34 @@ In [3]: pyopenjtalk.g2p("こんにちは", kana=True)
 Out[3]: 'コンニチワ'
 ```
 
+### Create/Apply user dictionary
+
+1. Create a CSV file (e.g. `user.csv`) and write custom words like below:
+
+```csv
+ＧＮＵ,,,1,名詞,一般,*,*,*,*,ＧＮＵ,グヌー,グヌー,2/3,*
+```
+
+2. Call `create_user_dict` to compile the CSV file.
+
+```
+>>> import pyopenjtalk
+>>> pyopenjtalk.create_user_dict("user.csv", "user.dic")
+reading user.csv ... 1
+emitting double-array: 100% |###########################################| 
+
+done!
+```
+
+3. Call `set_user_dict` to apply the user dictionary.
+
+```
+>>> pyopenjtalk.g2p("GNU")
+'j i i e n u y u u'
+>>> pyopenjtalk.set_user_dict("user.dic")
+>>> pyopenjtalk.g2p("GNU")
+'g u n u u'
+```
 
 ## LICENSE
 
