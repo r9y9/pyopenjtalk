@@ -18,7 +18,7 @@ except ImportError:
     raise ImportError("BUG: version.py doesn't exist. Please file a bug report.")
 
 from .htsengine import HTSEngine
-from .openjtalk import OpenJTalk, CreateUserDict
+from .openjtalk import CreateUserDict, OpenJTalk
 
 # Dictionary directory
 # defaults to the package directory where the dictionary will be automatically downloaded
@@ -168,6 +168,7 @@ def run_frontend(text, verbose=0):
         _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR)
     return _global_jtalk.run_frontend(text, verbose)
 
+
 def create_user_dict(path, out_path):
     """Create user dictionary
 
@@ -182,6 +183,7 @@ def create_user_dict(path, out_path):
         raise ValueError("no such file or directory: %s" % path)
     CreateUserDict(OPEN_JTALK_DICT_DIR, path.encode("utf-8"), out_path.encode("utf-8"))
 
+
 def set_user_dict(path):
     """Apply user dictionary
 
@@ -193,4 +195,6 @@ def set_user_dict(path):
         _lazy_init()
     if not exists(path):
         raise ValueError("no such file or directory: %s" % path)
-    _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR, user_mecab=path.encode("utf-8"))
+    _global_jtalk = OpenJTalk(
+        dn_mecab=OPEN_JTALK_DICT_DIR, user_mecab=path.encode("utf-8")
+    )
