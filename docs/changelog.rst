@@ -1,8 +1,10 @@
 Change log
 ==========
 
-v0.1.6 <2021-xx-xx>
+v0.1.6 <2022-01-29>
 -------------------
+
+* `#27`_: pyopenjtalk cannot be installed in google colab
 
 v0.1.5 <2021-09-18>
 -------------------
@@ -73,3 +75,4 @@ Initial release with OpenJTalk's text processsing functionality
 .. _#22: https://github.com/r9y9/pyopenjtalk/pull/22
 .. _#24: https://github.com/r9y9/pyopenjtalk/pull/24
 .. _#25: https://github.com/r9y9/pyopenjtalk/pull/25
+.. _#27: https://github.com/r9y9/pyopenjtalk/issues/27
