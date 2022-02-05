@@ -1,9 +1,10 @@
 Change log
 ==========
 
-v0.1.7 <2022-xx-xx>
+v0.2.0 <2022-02-06>
 -------------------
 
+* `#29`_: Update binary dependencies (hts_engine_API/open_jtalk)
 
 v0.1.6 <2022-01-29>
 -------------------
@@ -80,3 +81,4 @@ Initial release with OpenJTalk's text processsing functionality
 .. _#24: https://github.com/r9y9/pyopenjtalk/pull/24
 .. _#25: https://github.com/r9y9/pyopenjtalk/pull/25
 .. _#27: https://github.com/r9y9/pyopenjtalk/issues/27
+.. _#29: https://github.com/r9y9/pyopenjtalk/pull/29
