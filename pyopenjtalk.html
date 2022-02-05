@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyopenjtalk &mdash; pyopenjtalk 0.2.1+6486ed7 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyopenjtalk.openjtalk" href="openjtalk.html" />
+    <link rel="prev" title="Quick demo" href="notebooks/Demo.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyopenjtalk
+          </a>
+              <div class="version">
+                0.2.1+6486ed7
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Notebooks</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Demo.html">Quick demo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Demo.html#Text-to-speech-(TTS)">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Demo.html#Run-text-processing-frontend-only">Run text processing frontend only</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Demo.html#Grapheme-to-phoneme-(G2P)">Grapheme-to-phoneme (G2P)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyopenjtalk</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#high-level-api">High-level API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#misc">Misc</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="openjtalk.html">pyopenjtalk.openjtalk</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="openjtalk.html#openjtalk">OpenJTalk</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="htsengine.html">pyopenjtalk.htsengine</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="htsengine.html#htsengine">HTSEngine</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Meta information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-1-2022-xx-xx">v0.2.1 &lt;2022-xx-xx&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-2-0-2022-02-06">v0.2.0 &lt;2022-02-06&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-1-6-2022-01-29">v0.1.6 &lt;2022-01-29&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-1-5-2021-09-18">v0.1.5 &lt;2021-09-18&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-1-4-2021-09-16">v0.1.4 &lt;2021-09-16&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-1-3-2021-08-11">v0.1.3 &lt;2021-08-11&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-1-2-2021-08-04">v0.1.2 &lt;2021-08-04&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-1-1-2021-05-28">v0.1.1 &lt;2021-05-28&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-1-0-2021-03-24">v0.1.0 &lt;2021-03-24&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-0-3-2021-03-21">v0.0.3 &lt;2021-03-21&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-0-2-2020-03-01">v0.0.2 &lt;2020-03-01&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v0-0-1-2018-08-09">v0.0.1 &lt;2018-08-09&gt;</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyopenjtalk</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>pyopenjtalk</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pyopenjtalk.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="pyopenjtalk">
+<h1>pyopenjtalk<a class="headerlink" href="#pyopenjtalk" title="Permalink to this headline"></a></h1>
+<p>The functional interface for text processing and waveform synthesis.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For ease of use, all the functional interfaces use global instances of <a class="reference internal" href="openjtalk.html#pyopenjtalk.openjtalk.OpenJTalk" title="pyopenjtalk.openjtalk.OpenJTalk"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyopenjtalk.openjtalk.OpenJTalk</span></code></a> and <a class="reference internal" href="htsengine.html#pyopenjtalk.htsengine.HTSEngine" title="pyopenjtalk.htsengine.HTSEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyopenjtalk.htsengine.HTSEngine</span></code></a> internally.</p>
+<p>If you want to get a full control (e.g., using an external dictionary or htsvoice), please manually instanciate and use these classes.</p>
+</div>
+<span class="target" id="module-pyopenjtalk"></span><section id="high-level-api">
+<h2>High-level API<a class="headerlink" href="#high-level-api" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyopenjtalk.tts">
+<span class="sig-prename descclassname"><span class="pre">pyopenjtalk.</span></span><span class="sig-name descname"><span class="pre">tts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">half_tone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyopenjtalk.html#tts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyopenjtalk.tts" title="Permalink to this definition"></a></dt>
+<dd><p>Text-to-speech</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Input text</p></li>
+<li><p><strong>speed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – speech speed rate. Default is 1.0.</p></li>
+<li><p><strong>half_tone</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – additional half-tone. Default is 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>speech waveform (dtype: np.float64)
+int: sampling frequency (defualt: 48000)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyopenjtalk.g2p">
+<span class="sig-prename descclassname"><span class="pre">pyopenjtalk.</span></span><span class="sig-name descname"><span class="pre">g2p</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyopenjtalk.html#g2p"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyopenjtalk.g2p" title="Permalink to this definition"></a></dt>
+<dd><p>Grapheme-to-phoeneme (G2P) conversion</p>
+<p>This is just a convenient wrapper around <cite>run_frontend</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Unicode Japanese text.</p></li>
+<li><p><strong>kana</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns the pronunciation in katakana, otherwise in phone.
+Default is False.</p></li>
+<li><p><strong>join</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, concatenate phones or katakana’s into a single string.
+Default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>G2P result in 1) str if join is True 2) list if join is False.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyopenjtalk.extract_fullcontext">
+<span class="sig-prename descclassname"><span class="pre">pyopenjtalk.</span></span><span class="sig-name descname"><span class="pre">extract_fullcontext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyopenjtalk.html#extract_fullcontext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyopenjtalk.extract_fullcontext" title="Permalink to this definition"></a></dt>
+<dd><p>Extract full-context labels from text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Input text</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of full-context labels</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyopenjtalk.synthesize">
+<span class="sig-prename descclassname"><span class="pre">pyopenjtalk.</span></span><span class="sig-name descname"><span class="pre">synthesize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">half_tone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyopenjtalk.html#synthesize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyopenjtalk.synthesize" title="Permalink to this definition"></a></dt>
+<dd><p>Run OpenJTalk’s speech synthesis backend</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>labels</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – Full-context labels</p></li>
+<li><p><strong>speed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – speech speed rate. Default is 1.0.</p></li>
+<li><p><strong>half_tone</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – additional half-tone. Default is 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>speech waveform (dtype: np.float64)
+int: sampling frequency (defualt: 48000)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="misc">
+<h2>Misc<a class="headerlink" href="#misc" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyopenjtalk.run_frontend">
+<span class="sig-prename descclassname"><span class="pre">pyopenjtalk.</span></span><span class="sig-name descname"><span class="pre">run_frontend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyopenjtalk.html#run_frontend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyopenjtalk.run_frontend" title="Permalink to this definition"></a></dt>
+<dd><p>Run OpenJTalk’s text processing frontend</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Unicode Japanese text.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Verbosity. Default is 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pair of 1) NJD_print and 2) JPCommon_make_label.
+The latter is the full-context labels in HTS-style format.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="notebooks/Demo.html" class="btn btn-neutral float-left" title="Quick demo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="openjtalk.html" class="btn btn-neutral float-right" title="pyopenjtalk.openjtalk" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Ryuichi Yamamoto.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

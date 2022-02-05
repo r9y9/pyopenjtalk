@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyopenjtalk &mdash; pyopenjtalk 0.2.1+6486ed7 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> pyopenjtalk
+          </a>
+              <div class="version">
+                0.2.1+6486ed7
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Notebooks</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/Demo.html">Quick demo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/Demo.html#Text-to-speech-(TTS)">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/Demo.html#Run-text-processing-frontend-only">Run text processing frontend only</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/Demo.html#Grapheme-to-phoneme-(G2P)">Grapheme-to-phoneme (G2P)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyopenjtalk.html">pyopenjtalk</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pyopenjtalk.html#high-level-api">High-level API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pyopenjtalk.html#misc">Misc</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../openjtalk.html">pyopenjtalk.openjtalk</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../openjtalk.html#openjtalk">OpenJTalk</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../htsengine.html">pyopenjtalk.htsengine</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../htsengine.html#htsengine">HTSEngine</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Meta information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Change log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-2-1-2022-xx-xx">v0.2.1 &lt;2022-xx-xx&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-2-0-2022-02-06">v0.2.0 &lt;2022-02-06&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-1-6-2022-01-29">v0.1.6 &lt;2022-01-29&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-1-5-2021-09-18">v0.1.5 &lt;2021-09-18&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-1-4-2021-09-16">v0.1.4 &lt;2021-09-16&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-1-3-2021-08-11">v0.1.3 &lt;2021-08-11&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-1-2-2021-08-04">v0.1.2 &lt;2021-08-04&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-1-1-2021-05-28">v0.1.1 &lt;2021-05-28&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-1-0-2021-03-24">v0.1.0 &lt;2021-03-24&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-0-3-2021-03-21">v0.0.3 &lt;2021-03-21&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-0-2-2020-03-01">v0.0.2 &lt;2020-03-01&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#v0-0-1-2018-08-09">v0.0.1 &lt;2018-08-09&gt;</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyopenjtalk</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>pyopenjtalk</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pyopenjtalk</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span>
+
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+
+<span class="kn">import</span> <span class="nn">tarfile</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.version</span> <span class="kn">import</span> <span class="n">__version__</span>  <span class="c1"># NOQA</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;BUG: version.py doesn&#39;t exist. Please file a bug report.&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.htsengine</span> <span class="kn">import</span> <span class="n">HTSEngine</span>
+<span class="kn">from</span> <span class="nn">.openjtalk</span> <span class="kn">import</span> <span class="n">OpenJTalk</span>
+
+<span class="c1"># Dictionary directory</span>
+<span class="c1"># defaults to the package directory where the dictionary will be automatically downloaded</span>
+<span class="n">OPEN_JTALK_DICT_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="s2">&quot;OPEN_JTALK_DICT_DIR&quot;</span><span class="p">,</span>
+    <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;open_jtalk_dic_utf_8-1.11&quot;</span><span class="p">),</span>
+<span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="n">_dict_download_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/r9y9/open_jtalk/releases/download/v1.11.1&quot;</span>
+<span class="n">_DICT_URL</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_dict_download_url</span><span class="si">}</span><span class="s2">/open_jtalk_dic_utf_8-1.11.tar.gz&quot;</span>
+
+<span class="c1"># Default mei_normal.voice for HMM-based TTS</span>
+<span class="n">DEFAULT_HTS_VOICE</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span>
+    <span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;htsvoice/mei_normal.htsvoice&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+
+<span class="c1"># Global instance of OpenJTalk</span>
+<span class="n">_global_jtalk</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="c1"># Global instance of HTSEngine</span>
+<span class="c1"># mei_normal.voice is used as default</span>
+<span class="n">_global_htsengine</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="c1"># https://github.com/tqdm/tqdm#hooks-and-callbacks</span>
+<span class="k">class</span> <span class="nc">_TqdmUpTo</span><span class="p">(</span><span class="n">tqdm</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span> <span class="nf">update_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bsize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">tsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="n">tsize</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">bsize</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_dic</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">OPEN_JTALK_DICT_DIR</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;dic.tar.gz&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloading: &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_DICT_URL</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">_TqdmUpTo</span><span class="p">(</span>
+        <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">,</span>
+        <span class="n">unit_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">unit_divisor</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+        <span class="n">miniters</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;dic.tar.gz&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>  <span class="c1"># all optional kwargs</span>
+        <span class="n">urlretrieve</span><span class="p">(</span><span class="n">_DICT_URL</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">reporthook</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">update_to</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">n</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Extracting tar file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r|gz&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="n">OPEN_JTALK_DICT_DIR</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span>
+        <span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;open_jtalk_dic_utf_8-1.11&quot;</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_lazy_init</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">OPEN_JTALK_DICT_DIR</span><span class="p">):</span>
+        <span class="n">_extract_dic</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="g2p"><a class="viewcode-back" href="../pyopenjtalk.html#pyopenjtalk.g2p">[docs]</a><span class="k">def</span> <span class="nf">g2p</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Grapheme-to-phoeneme (G2P) conversion</span>
+
+<span class="sd">    This is just a convenient wrapper around `run_frontend`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Unicode Japanese text.</span>
+<span class="sd">        kana (bool): If True, returns the pronunciation in katakana, otherwise in phone.</span>
+<span class="sd">          Default is False.</span>
+<span class="sd">        join (bool): If True, concatenate phones or katakana&#39;s into a single string.</span>
+<span class="sd">          Default is True.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str or list: G2P result in 1) str if join is True 2) list if join is False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_global_jtalk</span>
+    <span class="k">if</span> <span class="n">_global_jtalk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_lazy_init</span><span class="p">()</span>
+        <span class="n">_global_jtalk</span> <span class="o">=</span> <span class="n">OpenJTalk</span><span class="p">(</span><span class="n">dn_mecab</span><span class="o">=</span><span class="n">OPEN_JTALK_DICT_DIR</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_global_jtalk</span><span class="o">.</span><span class="n">g2p</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extract_fullcontext"><a class="viewcode-back" href="../pyopenjtalk.html#pyopenjtalk.extract_fullcontext">[docs]</a><span class="k">def</span> <span class="nf">extract_fullcontext</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract full-context labels from text</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Input text</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of full-context labels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># note: drop first return</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">run_frontend</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">labels</span></div>
+
+
+<div class="viewcode-block" id="synthesize"><a class="viewcode-back" href="../pyopenjtalk.html#pyopenjtalk.synthesize">[docs]</a><span class="k">def</span> <span class="nf">synthesize</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">half_tone</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Run OpenJTalk&#39;s speech synthesis backend</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        labels (list): Full-context labels</span>
+<span class="sd">        speed (float): speech speed rate. Default is 1.0.</span>
+<span class="sd">        half_tone (float): additional half-tone. Default is 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: speech waveform (dtype: np.float64)</span>
+<span class="sd">        int: sampling frequency (defualt: 48000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">global</span> <span class="n">_global_htsengine</span>
+    <span class="k">if</span> <span class="n">_global_htsengine</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_global_htsengine</span> <span class="o">=</span> <span class="n">HTSEngine</span><span class="p">(</span><span class="n">DEFAULT_HTS_VOICE</span><span class="p">)</span>
+    <span class="n">sr</span> <span class="o">=</span> <span class="n">_global_htsengine</span><span class="o">.</span><span class="n">get_sampling_frequency</span><span class="p">()</span>
+    <span class="n">_global_htsengine</span><span class="o">.</span><span class="n">set_speed</span><span class="p">(</span><span class="n">speed</span><span class="p">)</span>
+    <span class="n">_global_htsengine</span><span class="o">.</span><span class="n">add_half_tone</span><span class="p">(</span><span class="n">half_tone</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_global_htsengine</span><span class="o">.</span><span class="n">synthesize</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">sr</span></div>
+
+
+<div class="viewcode-block" id="tts"><a class="viewcode-back" href="../pyopenjtalk.html#pyopenjtalk.tts">[docs]</a><span class="k">def</span> <span class="nf">tts</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">half_tone</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Text-to-speech</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Input text</span>
+<span class="sd">        speed (float): speech speed rate. Default is 1.0.</span>
+<span class="sd">        half_tone (float): additional half-tone. Default is 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: speech waveform (dtype: np.float64)</span>
+<span class="sd">        int: sampling frequency (defualt: 48000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">synthesize</span><span class="p">(</span><span class="n">extract_fullcontext</span><span class="p">(</span><span class="n">text</span><span class="p">),</span> <span class="n">speed</span><span class="p">,</span> <span class="n">half_tone</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="run_frontend"><a class="viewcode-back" href="../pyopenjtalk.html#pyopenjtalk.run_frontend">[docs]</a><span class="k">def</span> <span class="nf">run_frontend</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Run OpenJTalk&#39;s text processing frontend</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Unicode Japanese text.</span>
+<span class="sd">        verbose (int): Verbosity. Default is 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: Pair of 1) NJD_print and 2) JPCommon_make_label.</span>
+<span class="sd">        The latter is the full-context labels in HTS-style format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_global_jtalk</span>
+    <span class="k">if</span> <span class="n">_global_jtalk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_lazy_init</span><span class="p">()</span>
+        <span class="n">_global_jtalk</span> <span class="o">=</span> <span class="n">OpenJTalk</span><span class="p">(</span><span class="n">dn_mecab</span><span class="o">=</span><span class="n">OPEN_JTALK_DICT_DIR</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_global_jtalk</span><span class="o">.</span><span class="n">run_frontend</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Ryuichi Yamamoto.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
