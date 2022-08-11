@@ -1,6 +1,6 @@
 # distutils: language = c++
 
-cdef extern from "mecab.h":
+cdef extern from "mecab.h" nogil:
     cdef cppclass Mecab:
         char **feature
         int size

@@ -2,7 +2,7 @@
 
 from libc.stdio cimport FILE
 
-cdef extern from "njd.h":
+cdef extern from "njd.h" nogil:
     cdef cppclass NJDNode:
         char *string
         char *pos
@@ -78,20 +78,20 @@ cdef extern from "njd.h":
     void NJD_refresh(NJD * njd)
     void NJD_clear(NJD * wl)
 
-cdef extern from "njd_set_accent_phrase.h":
+cdef extern from "njd_set_accent_phrase.h" nogil:
     void njd_set_accent_phrase(NJD * njd)
 
-cdef extern from "njd_set_accent_type.h":
+cdef extern from "njd_set_accent_type.h" nogil:
     void njd_set_accent_type(NJD * njd)
 
-cdef extern from "njd_set_digit.h":
+cdef extern from "njd_set_digit.h" nogil:
     void njd_set_digit(NJD * njd)
 
-cdef extern from "njd_set_long_vowel.h":
+cdef extern from "njd_set_long_vowel.h" nogil:
     void njd_set_long_vowel(NJD * njd)
 
-cdef extern from "njd_set_pronunciation.h":
+cdef extern from "njd_set_pronunciation.h" nogil:
     void njd_set_pronunciation(NJD * njd)
 
-cdef extern from "njd_set_unvoiced_vowel.h":
+cdef extern from "njd_set_unvoiced_vowel.h" nogil:
     void njd_set_unvoiced_vowel(NJD * njd)
