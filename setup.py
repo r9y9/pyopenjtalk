@@ -95,7 +95,7 @@ elif system == "Linux":
 elif system == "Darwin":
     os.system('brew install libomp')
     extra_compile_args = ['-Xpreprocessor', '-fopenmp']
-    extra_link_args = ['-lomp']
+    extra_link_args = ['-L/usr/local/lib', '-lomp']
 else:
     extra_compile_args = ['-fopenmp']
     extra_link_args = ['-fopenmp']
@@ -176,7 +176,7 @@ class _TqdmUpTo(tqdm):  # type: ignore
             self.total = tsize
         return self.update(b * bsize - self.n)
 
-
+"""
 # extract dic
 filename = "dic.tar.gz"
 print('Downloading: "{}"'.format(_DICT_URL))
@@ -193,7 +193,7 @@ print("Extracting tar file {}".format(filename))
 with tarfile.open(filename, mode="r|gz") as f:
     f.extractall(path="./")
 os.remove(filename)
-
+"""
 
 # generate config.h for mecab
 # NOTE: need to run cmake to generate config.h
@@ -329,7 +329,7 @@ setup(
     url="https://github.com/r9y9/pyopenjtalk",
     license="MIT",
     packages=find_packages(),
-    package_data={"": ["htsvoice/*", f"{_dict_folder_name}/*"]},
+    package_data={"": ["htsvoice/*"]},
     ext_modules=ext_modules,
     cmdclass=cmdclass,
     install_requires=[
