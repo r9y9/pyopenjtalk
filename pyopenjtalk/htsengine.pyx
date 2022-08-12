@@ -1,6 +1,6 @@
 # coding: utf-8
-# cython: boundscheck=True, wraparound=True
-# cython: c_string_type=unicode, c_string_encoding=ascii
+# cython: boundscheck=False, wraparound=True
+# cython: c_string_type=unicode, c_string_encoding=ascii, cdivision=True
 
 import numpy as np
 
@@ -42,9 +42,11 @@ cdef class HTSEngine:
           raise RuntimeError("Failed to initalize HTS_Engine")
 
     cpdef inline char load(self, const uint8_t[::1] voice):
-        cdef char ret
+        cdef:
+            char ret
+            const uint8_t *voice_ptr = &voice[0]
         with nogil:
-            ret = HTS_Engine_load(self.engine, &(<char*>&voice[0]), 1)
+            ret = HTS_Engine_load(self.engine, <char**>(&voice_ptr), 1)
         return ret
 
     cpdef inline size_t get_sampling_frequency(self):

@@ -1,6 +1,6 @@
 # coding: utf-8
-# cython: boundscheck=True, wraparound=True
-# cython: c_string_type=unicode, c_string_encoding=ascii
+# cython: boundscheck=False, wraparound=True
+# cython: c_string_type=unicode, c_string_encoding=ascii, cdivision=True
 
 from libc.stdint cimport uint8_t
 import numpy as np
@@ -66,7 +66,7 @@ cdef inline str njd_node_get_chain_flag(_njd.NJDNode* node):
     return _njd.NJDNode_get_chain_flag(node)
 
 
-cdef str njd_node_print(_njd.NJDNode* node):
+cdef inline str njd_node_print(_njd.NJDNode* node):
     return "{},{},{},{},{},{},{},{},{},{},{}/{},{},{}".format(
         njd_node_get_string(node),
         njd_node_get_pos(node),
@@ -180,7 +180,7 @@ cdef class OpenJTalk:
 
         return njd_results, labels
 
-    cpdef inline g2p(self, object text, bint kana=False, bint join=True):
+    def g2p(self, object text, bint kana=False, bint join=True):
         """Grapheme-to-phoeneme (G2P) conversion
         """
         cdef list njd_results, labels
