@@ -1,5 +1,6 @@
 # coding: utf-8
-# cython: boundscheck=False, wraparound=True
+# cython: language_level=3
+# cython: boundscheck=False, wraparound=False
 # cython: c_string_type=unicode, c_string_encoding=ascii, cdivision=True
 
 from libc.stdint cimport uint8_t
@@ -11,17 +12,17 @@ np.import_array()
 cimport cython
 from cpython.bytes cimport PyBytes_AS_STRING
 
-from openjtalk.mecab cimport Mecab, Mecab_initialize, Mecab_load, Mecab_analysis
-from openjtalk.mecab cimport Mecab_get_feature, Mecab_get_size, Mecab_refresh, Mecab_clear
-from openjtalk.njd cimport NJD, NJD_initialize, NJD_refresh, NJD_print, NJD_clear
-from openjtalk cimport njd as _njd
-from openjtalk.jpcommon cimport JPCommon, JPCommon_initialize,JPCommon_make_label
-from openjtalk.jpcommon cimport JPCommon_get_label_size, JPCommon_get_label_feature
-from openjtalk.jpcommon cimport JPCommon_refresh, JPCommon_clear
-from openjtalk cimport njd2jpcommon
-from openjtalk.text2mecab cimport text2mecab
-from openjtalk.mecab2njd cimport mecab2njd
-from openjtalk.njd2jpcommon cimport njd2jpcommon
+from pyopenjtalk.openjtalk.mecab cimport Mecab, Mecab_initialize, Mecab_load, Mecab_analysis
+from pyopenjtalk.openjtalk.mecab cimport Mecab_get_feature, Mecab_get_size, Mecab_refresh, Mecab_clear
+from pyopenjtalk.openjtalk.njd cimport NJD, NJD_initialize, NJD_refresh, NJD_print, NJD_clear
+from pyopenjtalk.openjtalk cimport njd as _njd
+from pyopenjtalk.openjtalk.jpcommon cimport JPCommon, JPCommon_initialize,JPCommon_make_label
+from pyopenjtalk.openjtalk.jpcommon cimport JPCommon_get_label_size, JPCommon_get_label_feature
+from pyopenjtalk.openjtalk.jpcommon cimport JPCommon_refresh, JPCommon_clear
+from pyopenjtalk.openjtalk cimport njd2jpcommon
+from pyopenjtalk.openjtalk.text2mecab cimport text2mecab
+from pyopenjtalk.openjtalk.mecab2njd cimport mecab2njd
+from pyopenjtalk.openjtalk.njd2jpcommon cimport njd2jpcommon
 
 cdef inline str njd_node_get_string(_njd.NJDNode* node):
     return (<bytes>(_njd.NJDNode_get_string(node))).decode("utf-8")
@@ -53,16 +54,16 @@ cdef inline str njd_node_get_read(_njd.NJDNode* node):
 cdef inline str njd_node_get_pron(_njd.NJDNode* node):
     return (<bytes>(_njd.NJDNode_get_pron(node))).decode("utf-8")
 
-cdef inline str njd_node_get_acc(_njd.NJDNode* node):
+cdef inline int njd_node_get_acc(_njd.NJDNode* node):
     return _njd.NJDNode_get_acc(node)
 
-cdef inline str njd_node_get_mora_size(_njd.NJDNode* node):
+cdef inline int njd_node_get_mora_size(_njd.NJDNode* node):
     return _njd.NJDNode_get_mora_size(node)
 
 cdef inline str njd_node_get_chain_rule(_njd.NJDNode* node):
     return (<bytes>(_njd.NJDNode_get_chain_rule(node))).decode("utf-8")
 
-cdef inline str njd_node_get_chain_flag(_njd.NJDNode* node):
+cdef inline int njd_node_get_chain_flag(_njd.NJDNode* node):
     return _njd.NJDNode_get_chain_flag(node)
 
 
@@ -158,7 +159,7 @@ cdef class OpenJTalk:
             JPCommon_make_label(self.jpcommon)
 
             label_size = JPCommon_get_label_size(self.jpcommon)
-            JPCommon_get_label_feature(self.jpcommon)
+            label_feature = JPCommon_get_label_feature(self.jpcommon)
 
         labels = []
         cdef int i
@@ -177,7 +178,6 @@ cdef class OpenJTalk:
             JPCommon_refresh(self.jpcommon)
             NJD_refresh(self.njd)
             Mecab_refresh(self.mecab)
-
         return njd_results, labels
 
     def g2p(self, object text, bint kana=False, bint join=True):

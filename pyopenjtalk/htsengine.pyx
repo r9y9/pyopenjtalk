@@ -1,5 +1,6 @@
 # coding: utf-8
-# cython: boundscheck=False, wraparound=True
+# cython: language_level=3
+# cython: boundscheck=False, wraparound=False
 # cython: c_string_type=unicode, c_string_encoding=ascii, cdivision=True
 
 import numpy as np
@@ -12,8 +13,8 @@ from cython.parallel cimport prange
 from cpython.mem cimport PyMem_Malloc, PyMem_Free
 from libc.stdint cimport uint8_t
 
-from htsengine cimport HTS_Engine
-from htsengine cimport (
+from pyopenjtalk.htsengine cimport HTS_Engine
+from pyopenjtalk.htsengine cimport (
     HTS_Engine_initialize, HTS_Engine_load, HTS_Engine_clear, HTS_Engine_refresh,
     HTS_Engine_get_sampling_frequency, HTS_Engine_get_fperiod,
     HTS_Engine_set_speed, HTS_Engine_add_half_tone,
