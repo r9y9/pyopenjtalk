@@ -33,6 +33,10 @@ msvc_extra_compile_args_config = [
     "/execution-charset:utf-8",
 ]
 
+_dict_folder_name = "open_jtalk_dic_utf_8-1.11"
+_dict_download_url = "https://github.com/r9y9/open_jtalk/releases/download/v1.11.1"
+_DICT_URL = f"{_dict_download_url}/{_dict_folder_name}.tar.gz"
+
 try:
     if not _CYTHON_INSTALLED:
         raise ImportError("No supported version of Cython installed.")
@@ -137,6 +141,33 @@ custom_define_macros = (
 
 # open_jtalk sources
 src_top = join("lib", "open_jtalk", "src")
+
+
+# https://github.com/tqdm/tqdm#hooks-and-callbacks
+class _TqdmUpTo(tqdm):  # type: ignore
+    def update_to(self, b=1, bsize=1, tsize=None):
+        if tsize is not None:
+            self.total = tsize
+        return self.update(b * bsize - self.n)
+
+
+# extract dic
+filename = "dic.tar.gz"
+print('Downloading: "{}"'.format(_DICT_URL))
+with _TqdmUpTo(
+    unit="B",
+    unit_scale=True,
+    unit_divisor=1024,
+    miniters=1,
+    desc="dic.tar.gz",
+) as t:  # all optional kwargs
+    urlretrieve(_DICT_URL, filename, reporthook=t.update_to)
+    t.total = t.n
+print("Extracting tar file {}".format(filename))
+with tarfile.open(filename, mode="r|gz") as f:
+    f.extractall(path="./")
+os.remove(filename)
+
 
 # generate config.h for mecab
 # NOTE: need to run cmake to generate config.h
@@ -272,7 +303,7 @@ setup(
     url="https://github.com/r9y9/pyopenjtalk",
     license="MIT",
     packages=find_packages(),
-    package_data={"": ["htsvoice/*"]},
+    package_data={"": ["htsvoice/*", f"{_dict_folder_name}/*"]},
     ext_modules=ext_modules,
     cmdclass=cmdclass,
     install_requires=[
