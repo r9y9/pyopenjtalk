@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 import platform
+import shutil
 from distutils.errors import DistutilsExecError
 from distutils.spawn import spawn
 from distutils.version import LooseVersion
@@ -16,7 +17,6 @@ import setuptools.command.develop
 from setuptools import Extension, find_packages, setup
 
 import six
-from tqdm.auto import tqdm
 if six.PY2:
     from urllib import urlretrieve
 else:
@@ -171,31 +171,20 @@ custom_define_macros = (
 src_top = join("lib", "open_jtalk", "src")
 
 
-# https://github.com/tqdm/tqdm#hooks-and-callbacks
-class _TqdmUpTo(tqdm):  # type: ignore
-    def update_to(self, b=1, bsize=1, tsize=None):
-        if tsize is not None:
-            self.total = tsize
-        return self.update(b * bsize - self.n)
-
 
 # extract dic
 filename = "dic.tar.gz"
-print('Downloading: "{}"'.format(_DICT_URL))
-with _TqdmUpTo(
-    unit="B",
-    unit_scale=True,
-    unit_divisor=1024,
-    miniters=1,
-    desc="dic.tar.gz",
-) as t:  # all optional kwargs
-    urlretrieve(_DICT_URL, filename, reporthook=t.update_to)
-    t.total = t.n
+print(f"Downloading: {_DICT_URL}")
+urlretrieve(_DICT_URL, filename)
+print("Download complete")
+
 print("Extracting tar file {}".format(filename))
 with tarfile.open(filename, mode="r|gz") as f:
     f.extractall(path="./")
 os.remove(filename)
-
+print("Extract complete")
+shutil.copytree(f"./{_dict_folder_name}", f"./pyopenjtalk/{_dict_folder_name}")
+sys.stdout.flush()
 
 # generate config.h for mecab
 # NOTE: need to run cmake to generate config.h
