@@ -93,8 +93,8 @@ elif system == "Linux":
     extra_compile_args = ['-fopenmp']
     extra_link_args = ['-fopenmp']
 elif system == "Darwin":
-    os.system("brew install libomp")
-    extra_compile_args = ['-Xpreprocessor -fopenmp']
+    os.system('brew install libomp')
+    extra_compile_args = ['-Xpreprocessor', '-fopenmp']
     extra_link_args = ['-lomp']
 else:
     extra_compile_args = ['-fopenmp']
