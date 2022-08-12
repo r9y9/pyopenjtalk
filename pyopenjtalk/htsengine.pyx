@@ -117,9 +117,9 @@ cdef class HTSEngine:
         cdef size_t nsamples = HTS_Engine_get_nsamples(self.engine)
         cdef np.ndarray[np.float64_t, ndim=1] speech = np.zeros([nsamples], dtype=np.float64)
         cdef double[::1] speech_view = speech
-        cdef size_t index
+        cdef int index
         for index in prange(nsamples, nogil=True):
-            speech_view[index] = HTS_Engine_get_generated_speech(self.engine, index)
+            speech_view[index] = HTS_Engine_get_generated_speech(self.engine, <size_t>index)
         return speech
 
     cpdef inline str get_fullcontext_label_format(self):

@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+import platform
 from distutils.errors import DistutilsExecError
 from distutils.spawn import spawn
 from distutils.version import LooseVersion
@@ -69,6 +70,24 @@ else:
     cmdclass = {}
     if not os.path.exists(join("pyopenjtalk", "openjtalk" + ext)):
         raise RuntimeError("Cython is required to generate C++ code")
+
+# make openmp available
+system = platform.system()
+if system == "Windows":
+    extra_compile_args = []
+    extra_link_args = ['/openmp']
+elif system == "Linux":
+    extra_compile_args = ['-fopenmp']
+    extra_link_args = ['-fopenmp']
+elif system == "Darwin":
+    os.system("brew install llvm libomp")
+    os.system("brew install clang-omp")
+    # os.environ["CPP"] = "/usr/local/opt/llvm/bin/clang"
+    extra_compile_args = ["-Xpreprocessor", "-fopenmp"]
+    extra_link_args = ["-Xpreprocessor", "-fopenmp"]
+else:
+    extra_compile_args = ['-fopenmp']
+    extra_link_args = ['-fopenmp']
 
 
 # Workaround for `distutils.spawn` problem on Windows python < 3.9
@@ -180,8 +199,8 @@ ext_modules = [
         name="pyopenjtalk.openjtalk",
         sources=[join("pyopenjtalk", "openjtalk" + ext)] + all_src,
         include_dirs=[np.get_include()] + include_dirs,
-        extra_compile_args=['-fopenmp'],
-        extra_link_args=['-fopenmp'],
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args,
         language="c++",
         define_macros=custom_define_macros(
             [
@@ -204,8 +223,8 @@ ext_modules += [
         name="pyopenjtalk.htsengine",
         sources=[join("pyopenjtalk", "htsengine" + ext)] + all_htsengine_src,
         include_dirs=[np.get_include(), join(htsengine_src_top, "include")],
-        extra_compile_args=['-fopenmp'],
-        extra_link_args=['-fopenmp'],
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args,
         libraries=["winmm"] if platform_is_windows else [],
         language="c++",
         define_macros=custom_define_macros(
