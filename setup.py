@@ -176,7 +176,6 @@ class _TqdmUpTo(tqdm):  # type: ignore
             self.total = tsize
         return self.update(b * bsize - self.n)
 
-"""
 # extract dic
 filename = "dic.tar.gz"
 print('Downloading: "{}"'.format(_DICT_URL))
@@ -193,7 +192,6 @@ print("Extracting tar file {}".format(filename))
 with tarfile.open(filename, mode="r|gz") as f:
     f.extractall(path="./")
 os.remove(filename)
-"""
 
 # generate config.h for mecab
 # NOTE: need to run cmake to generate config.h
