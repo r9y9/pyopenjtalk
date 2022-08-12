@@ -14,6 +14,15 @@ import setuptools.command.build_py
 import setuptools.command.develop
 from setuptools import Extension, find_packages, setup
 
+import six
+from tqdm.auto import tqdm
+if six.PY2:
+    from urllib import urlretrieve
+else:
+    from urllib.request import urlretrieve
+import tarfile
+
+
 platform_is_windows = sys.platform == "win32"
 
 version = "0.3.0"
