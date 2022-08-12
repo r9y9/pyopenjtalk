@@ -1,6 +1,6 @@
 # coding: utf-8
 # cython: language_level=3
-# cython: boundscheck=False, wraparound=False
+# cython: boundscheck=False, wraparound=True
 # cython: c_string_type=unicode, c_string_encoding=ascii, cdivision=True
 
 from libc.stdint cimport uint8_t
