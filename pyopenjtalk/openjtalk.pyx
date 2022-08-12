@@ -4,25 +4,34 @@
 # cython: c_string_type=unicode, c_string_encoding=ascii, cdivision=True
 
 from libc.stdint cimport uint8_t
+
 import numpy as np
 
 cimport numpy as np
+
 np.import_array()
 
 cimport cython
 from cpython.bytes cimport PyBytes_AS_STRING
 
-from pyopenjtalk.openjtalk.mecab cimport Mecab, Mecab_initialize, Mecab_load, Mecab_analysis
-from pyopenjtalk.openjtalk.mecab cimport Mecab_get_feature, Mecab_get_size, Mecab_refresh, Mecab_clear
-from pyopenjtalk.openjtalk.njd cimport NJD, NJD_initialize, NJD_refresh, NJD_print, NJD_clear
 from pyopenjtalk.openjtalk cimport njd as _njd
-from pyopenjtalk.openjtalk.jpcommon cimport JPCommon, JPCommon_initialize,JPCommon_make_label
-from pyopenjtalk.openjtalk.jpcommon cimport JPCommon_get_label_size, JPCommon_get_label_feature
-from pyopenjtalk.openjtalk.jpcommon cimport JPCommon_refresh, JPCommon_clear
 from pyopenjtalk.openjtalk cimport njd2jpcommon
-from pyopenjtalk.openjtalk.text2mecab cimport text2mecab
+from pyopenjtalk.openjtalk.jpcommon cimport (JPCommon, JPCommon_clear,
+                                             JPCommon_get_label_feature,
+                                             JPCommon_get_label_size,
+                                             JPCommon_initialize,
+                                             JPCommon_make_label,
+                                             JPCommon_refresh)
+from pyopenjtalk.openjtalk.mecab cimport (Mecab, Mecab_analysis, Mecab_clear,
+                                          Mecab_get_feature, Mecab_get_size,
+                                          Mecab_initialize, Mecab_load,
+                                          Mecab_refresh)
 from pyopenjtalk.openjtalk.mecab2njd cimport mecab2njd
+from pyopenjtalk.openjtalk.njd cimport (NJD, NJD_clear, NJD_initialize,
+                                        NJD_print, NJD_refresh)
 from pyopenjtalk.openjtalk.njd2jpcommon cimport njd2jpcommon
+from pyopenjtalk.openjtalk.text2mecab cimport text2mecab
+
 
 cdef inline str njd_node_get_string(_njd.NJDNode* node):
     return (<bytes>(_njd.NJDNode_get_string(node))).decode("utf-8")

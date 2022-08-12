@@ -1,8 +1,8 @@
 import os
-import subprocess
-import sys
 import platform
 import shutil
+import subprocess
+import sys
 from distutils.errors import DistutilsExecError
 from distutils.spawn import spawn
 from distutils.version import LooseVersion
@@ -14,15 +14,15 @@ from subprocess import run
 import numpy as np
 import setuptools.command.build_py
 import setuptools.command.develop
+import six
 from setuptools import Extension, find_packages, setup
 
-import six
 if six.PY2:
     from urllib import urlretrieve
 else:
     from urllib.request import urlretrieve
-import tarfile
 
+import tarfile
 
 platform_is_windows = sys.platform == "win32"
 
@@ -88,10 +88,10 @@ else:
 system = platform.system()
 if system == "Windows":
     extra_compile_args = []
-    extra_link_args = ['/openmp']
+    extra_link_args = ["/openmp"]
 elif system == "Linux":
-    extra_compile_args = ['-fopenmp']
-    extra_link_args = ['-fopenmp']
+    extra_compile_args = ["-fopenmp"]
+    extra_link_args = ["-fopenmp"]
 elif system == "Darwin":
     os.system("brew install llvm libomp")
     os.system("brew install clang-omp")
@@ -99,8 +99,8 @@ elif system == "Darwin":
     extra_compile_args = ["-Xpreprocessor", "-fopenmp"]
     extra_link_args = ["-Xpreprocessor", "-fopenmp"]
 else:
-    extra_compile_args = ['-fopenmp']
-    extra_link_args = ['-fopenmp']
+    extra_compile_args = ["-fopenmp"]
+    extra_link_args = ["-fopenmp"]
 
 
 # Workaround for `distutils.spawn` problem on Windows python < 3.9
@@ -169,7 +169,6 @@ custom_define_macros = (
 
 # open_jtalk sources
 src_top = join("lib", "open_jtalk", "src")
-
 
 
 # extract dic

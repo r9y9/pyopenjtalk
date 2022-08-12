@@ -13,12 +13,12 @@ else:
 import tarfile
 
 try:
-    from .version import __version__  # NOQA
+    from pyopenjtalk.version import __version__  # NOQA
 except ImportError:
     raise ImportError("BUG: version.py doesn't exist. Please file a bug report.")
 
-from .htsengine import HTSEngine
-from .openjtalk import OpenJTalk
+from pyopenjtalk.htsengine import HTSEngine
+from pyopenjtalk.openjtalk import OpenJTalk
 
 # Dictionary directory
 # defaults to the package directory where the dictionary will be automatically downloaded

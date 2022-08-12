@@ -3,6 +3,7 @@
 
 from libc.stdio cimport FILE
 
+
 cdef extern from "njd.h" nogil:
     cdef cppclass NJDNode:
         char *string

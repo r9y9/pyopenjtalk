@@ -3,6 +3,7 @@
 
 from libc.stdio cimport FILE
 
+
 cdef extern from "jpcommon.h" nogil:
     cdef cppclass JPCommonNode:
         char *pron

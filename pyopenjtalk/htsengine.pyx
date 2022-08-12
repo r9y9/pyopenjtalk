@@ -6,21 +6,23 @@
 import numpy as np
 
 cimport numpy as np
+
 np.import_array()
 
 cimport cython
+from cpython.mem cimport PyMem_Free, PyMem_Malloc
 from cython.parallel cimport prange
-from cpython.mem cimport PyMem_Malloc, PyMem_Free
 from libc.stdint cimport uint8_t
 
-from pyopenjtalk.htsengine cimport HTS_Engine
-from pyopenjtalk.htsengine cimport (
-    HTS_Engine_initialize, HTS_Engine_load, HTS_Engine_clear, HTS_Engine_refresh,
-    HTS_Engine_get_sampling_frequency, HTS_Engine_get_fperiod,
-    HTS_Engine_set_speed, HTS_Engine_add_half_tone,
-    HTS_Engine_synthesize_from_strings,
-    HTS_Engine_get_generated_speech, HTS_Engine_get_nsamples
-)
+from pyopenjtalk.htsengine cimport (HTS_Engine, HTS_Engine_add_half_tone,
+                                    HTS_Engine_clear, HTS_Engine_get_fperiod,
+                                    HTS_Engine_get_generated_speech,
+                                    HTS_Engine_get_nsamples,
+                                    HTS_Engine_get_sampling_frequency,
+                                    HTS_Engine_initialize, HTS_Engine_load,
+                                    HTS_Engine_refresh, HTS_Engine_set_speed,
+                                    HTS_Engine_synthesize_from_strings)
+
 
 @cython.final
 @cython.no_gc
