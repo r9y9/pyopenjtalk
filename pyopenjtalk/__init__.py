@@ -2,7 +2,6 @@ import os
 
 import pkg_resources
 
-
 try:
     from pyopenjtalk.version import __version__  # NOQA
 except ImportError:
