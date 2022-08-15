@@ -14,13 +14,9 @@ from subprocess import run
 import numpy as np
 import setuptools.command.build_py
 import setuptools.command.develop
-import six
 from setuptools import Extension, find_packages, setup
 
-if six.PY2:
-    from urllib import urlretrieve
-else:
-    from urllib.request import urlretrieve
+from urllib.request import urlretrieve
 
 import tarfile
 
@@ -323,8 +319,6 @@ setup(
     install_requires=[
         "numpy >= 1.20.0",
         "cython >= " + min_cython_ver,
-        "six",
-        "tqdm",
     ],
     tests_require=["nose", "coverage"],
     extras_require={
