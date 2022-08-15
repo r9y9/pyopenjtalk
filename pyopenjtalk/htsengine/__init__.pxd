@@ -1,7 +1,9 @@
 # distutils: language = c++
 
 
-cdef extern from "HTS_engine.h":
+# cython: language_level=3
+
+cdef extern from "HTS_engine.h" nogil:
     cdef cppclass _HTS_Engine:
         pass
     ctypedef _HTS_Engine HTS_Engine

@@ -1,6 +1,9 @@
 import os
+import platform
+import shutil
 import subprocess
 import sys
+import tarfile
 from distutils.errors import DistutilsExecError
 from distutils.spawn import spawn
 from distutils.version import LooseVersion
@@ -8,6 +11,7 @@ from glob import glob
 from itertools import chain
 from os.path import exists, join
 from subprocess import run
+from urllib.request import urlretrieve
 
 import numpy as np
 import setuptools.command.build_py
@@ -32,6 +36,10 @@ msvc_extra_compile_args_config = [
     "/source-charset:utf-8",
     "/execution-charset:utf-8",
 ]
+
+_dict_folder_name = "open_jtalk_dic_utf_8-1.11"
+_dict_download_url = "https://github.com/r9y9/open_jtalk/releases/download/v1.11.1"
+_DICT_URL = f"{_dict_download_url}/{_dict_folder_name}.tar.gz"
 
 try:
     if not _CYTHON_INSTALLED:
@@ -69,6 +77,22 @@ else:
     cmdclass = {}
     if not os.path.exists(join("pyopenjtalk", "openjtalk" + ext)):
         raise RuntimeError("Cython is required to generate C++ code")
+
+# make openmp available
+system = platform.system()
+if system == "Windows":
+    extra_compile_args = []
+    extra_link_args = ["/openmp"]
+elif system == "Linux":
+    extra_compile_args = ["-fopenmp"]
+    extra_link_args = ["-fopenmp"]
+elif system == "Darwin":
+    os.system("brew install libomp")
+    extra_compile_args = ["-Xpreprocessor", "-fopenmp"]
+    extra_link_args = ["-L/usr/local/lib", "-lomp"]
+else:
+    extra_compile_args = ["-fopenmp"]
+    extra_link_args = ["-fopenmp"]
 
 
 # Workaround for `distutils.spawn` problem on Windows python < 3.9
@@ -138,6 +162,24 @@ custom_define_macros = (
 # open_jtalk sources
 src_top = join("lib", "open_jtalk", "src")
 
+
+# extract dic
+filename = "dic.tar.gz"
+print(f"Downloading: {_DICT_URL}")
+urlretrieve(_DICT_URL, filename)
+print("Download complete")
+
+print("Extracting tar file {}".format(filename))
+with tarfile.open(filename, mode="r|gz") as f:
+    f.extractall(path="./")
+os.remove(filename)
+print("Extract complete")
+try:
+    shutil.copytree(f"./{_dict_folder_name}", f"./pyopenjtalk/{_dict_folder_name}")
+    sys.stdout.flush()
+except FileExistsError:
+    pass
+
 # generate config.h for mecab
 # NOTE: need to run cmake to generate config.h
 # we could do it on python side but it would be very tricky,
@@ -180,8 +222,8 @@ ext_modules = [
         name="pyopenjtalk.openjtalk",
         sources=[join("pyopenjtalk", "openjtalk" + ext)] + all_src,
         include_dirs=[np.get_include()] + include_dirs,
-        extra_compile_args=[],
-        extra_link_args=[],
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args,
         language="c++",
         define_macros=custom_define_macros(
             [
@@ -204,8 +246,8 @@ ext_modules += [
         name="pyopenjtalk.htsengine",
         sources=[join("pyopenjtalk", "htsengine" + ext)] + all_htsengine_src,
         include_dirs=[np.get_include(), join(htsengine_src_top, "include")],
-        extra_compile_args=[],
-        extra_link_args=[],
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args,
         libraries=["winmm"] if platform_is_windows else [],
         language="c++",
         define_macros=custom_define_macros(
@@ -272,14 +314,12 @@ setup(
     url="https://github.com/r9y9/pyopenjtalk",
     license="MIT",
     packages=find_packages(),
-    package_data={"": ["htsvoice/*"]},
+    package_data={"": ["htsvoice/*", f"{_dict_folder_name}/*"]},
     ext_modules=ext_modules,
     cmdclass=cmdclass,
     install_requires=[
         "numpy >= 1.20.0",
         "cython >= " + min_cython_ver,
-        "six",
-        "tqdm",
     ],
     tests_require=["nose", "coverage"],
     extras_require={

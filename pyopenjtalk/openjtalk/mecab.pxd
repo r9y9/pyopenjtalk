@@ -1,6 +1,7 @@
 # distutils: language = c++
+# cython: language_level=3
 
-cdef extern from "mecab.h":
+cdef extern from "mecab.h" nogil:
     cdef cppclass Mecab:
         char **feature
         int size

@@ -1,24 +1,14 @@
 import os
-from os.path import exists
 
 import pkg_resources
-import six
-from tqdm.auto import tqdm
-
-if six.PY2:
-    from urllib import urlretrieve
-else:
-    from urllib.request import urlretrieve
-
-import tarfile
 
 try:
-    from .version import __version__  # NOQA
+    from pyopenjtalk.version import __version__  # NOQA
 except ImportError:
     raise ImportError("BUG: version.py doesn't exist. Please file a bug report.")
 
-from .htsengine import HTSEngine
-from .openjtalk import OpenJTalk
+from pyopenjtalk.htsengine import HTSEngine
+from pyopenjtalk.openjtalk import OpenJTalk
 
 # Dictionary directory
 # defaults to the package directory where the dictionary will be automatically downloaded
@@ -26,8 +16,6 @@ OPEN_JTALK_DICT_DIR = os.environ.get(
     "OPEN_JTALK_DICT_DIR",
     pkg_resources.resource_filename(__name__, "open_jtalk_dic_utf_8-1.11"),
 ).encode("utf-8")
-_dict_download_url = "https://github.com/r9y9/open_jtalk/releases/download/v1.11.1"
-_DICT_URL = f"{_dict_download_url}/open_jtalk_dic_utf_8-1.11.tar.gz"
 
 # Default mei_normal.voice for HMM-based TTS
 DEFAULT_HTS_VOICE = pkg_resources.resource_filename(
@@ -39,41 +27,6 @@ _global_jtalk = None
 # Global instance of HTSEngine
 # mei_normal.voice is used as default
 _global_htsengine = None
-
-
-# https://github.com/tqdm/tqdm#hooks-and-callbacks
-class _TqdmUpTo(tqdm):  # type: ignore
-    def update_to(self, b=1, bsize=1, tsize=None):
-        if tsize is not None:
-            self.total = tsize
-        return self.update(b * bsize - self.n)
-
-
-def _extract_dic():
-    global OPEN_JTALK_DICT_DIR
-    filename = pkg_resources.resource_filename(__name__, "dic.tar.gz")
-    print('Downloading: "{}"'.format(_DICT_URL))
-    with _TqdmUpTo(
-        unit="B",
-        unit_scale=True,
-        unit_divisor=1024,
-        miniters=1,
-        desc="dic.tar.gz",
-    ) as t:  # all optional kwargs
-        urlretrieve(_DICT_URL, filename, reporthook=t.update_to)
-        t.total = t.n
-    print("Extracting tar file {}".format(filename))
-    with tarfile.open(filename, mode="r|gz") as f:
-        f.extractall(path=pkg_resources.resource_filename(__name__, ""))
-    OPEN_JTALK_DICT_DIR = pkg_resources.resource_filename(
-        __name__, "open_jtalk_dic_utf_8-1.11"
-    ).encode("utf-8")
-    os.remove(filename)
-
-
-def _lazy_init():
-    if not exists(OPEN_JTALK_DICT_DIR):
-        _extract_dic()
 
 
 def g2p(*args, **kwargs):
@@ -93,7 +46,6 @@ def g2p(*args, **kwargs):
     """
     global _global_jtalk
     if _global_jtalk is None:
-        _lazy_init()
         _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR)
     return _global_jtalk.g2p(*args, **kwargs)
 
@@ -164,6 +116,5 @@ def run_frontend(text, verbose=0):
     """
     global _global_jtalk
     if _global_jtalk is None:
-        _lazy_init()
         _global_jtalk = OpenJTalk(dn_mecab=OPEN_JTALK_DICT_DIR)
     return _global_jtalk.run_frontend(text, verbose)
