@@ -4,8 +4,8 @@ def merge_njd_marine_features(njd_features, marine_results):
     marine_accs = marine_results["accent_status"]
     marine_chain_flags = marine_results["accent_phrase_boundary"]
 
-    assert len(njd_features) == len(marine_accs) == len(
-        marine_chain_flags
+    assert (
+        len(njd_features) == len(marine_accs) == len(marine_chain_flags)
     ), "Invalid sequence sizes in njd_results, marine_results"
 
     for node_index, njd_feature in enumerate(njd_features):

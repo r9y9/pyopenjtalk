@@ -103,7 +103,7 @@ def g2p(*args, **kwargs):
 
 def estimate_accent(njd_features):
     """Accent estimation using marine
-    
+
     This function requires for installation of marine (https://github.com/6gsn/marine)
 
     Args:
@@ -117,14 +117,14 @@ def estimate_accent(njd_features):
         try:
             from marine.predict import Predictor
         except BaseException:
-            raise ImportError(
-                'Please install marine by `pip install marine`'
-            )
+            raise ImportError("Please install marine by `pip install -e  '.[marine]'`")
         _global_marine = Predictor()
     from marine.utils.openjtalk_util import convert_njd_feature_to_marine_feature
 
     marine_feature = convert_njd_feature_to_marine_feature(njd_features)
-    marine_results = _global_marine.predict([marine_feature], require_open_jtalk_format=True)
+    marine_results = _global_marine.predict(
+        [marine_feature], require_open_jtalk_format=True
+    )
     njd_features = merge_njd_marine_features(njd_features, marine_results)
     return njd_features
 
