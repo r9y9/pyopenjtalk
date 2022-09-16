@@ -303,6 +303,7 @@ setup(
             "types-decorator",
         ],
         "test": ["pytest", "scipy"],
+        "marine": ["marine>=0.0.5"],
     },
     classifiers=[
         "Operating System :: POSIX",
