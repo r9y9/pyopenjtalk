@@ -16,6 +16,29 @@ def test_hello():
     _print_results(njd_features, labels)
 
 
+def test_njd_features():
+    njd_features = pyopenjtalk.run_frontend("こんにちは")
+    expected_feature = [
+        {
+            "string": "こんにちは",
+            "pos": "感動詞",
+            "pos_group1": "*",
+            "pos_group2": "*",
+            "pos_group3": "*",
+            "ctype": "*",
+            "cform": "*",
+            "orig": "こんにちは",
+            "read": "コンニチハ",
+            "pron": "コンニチワ",
+            "acc": 0,
+            "mora_size": 5,
+            "chain_rule": "-1",
+            "chain_flag": -1,
+        }
+    ]
+    assert njd_features == expected_feature
+
+
 def test_fullcontext():
     features = pyopenjtalk.run_frontend("こんにちは")
     labels = pyopenjtalk.make_label(features)
