@@ -134,7 +134,9 @@ def extract_fullcontext(text, run_marine=False):
 
     Args:
         text (str): Input text
-        run_marine (bool): Whether run marine for estimating accent using DNN-based method
+        run_marine (bool): Whether estimate accent using marine.
+          Default is False. If you want activate this option, you need to install marine
+          by `pip install pyopenjtalk[marine]`
 
     Returns:
         list: List of full-context labels
@@ -170,19 +172,24 @@ def synthesize(labels, speed=1.0, half_tone=0.0):
     return _global_htsengine.synthesize(labels), sr
 
 
-def tts(text, speed=1.0, half_tone=0.0):
+def tts(text, speed=1.0, half_tone=0.0, run_marine=False):
     """Text-to-speech
 
     Args:
         text (str): Input text
         speed (float): speech speed rate. Default is 1.0.
         half_tone (float): additional half-tone. Default is 0.
+        run_marine (bool): Whether estimate accent using marine.
+          Default is False. If you want activate this option, you need to install marine
+          by `pip install pyopenjtalk[marine]`
 
     Returns:
         np.ndarray: speech waveform (dtype: np.float64)
         int: sampling frequency (defualt: 48000)
     """
-    return synthesize(extract_fullcontext(text), speed, half_tone)
+    return synthesize(
+        extract_fullcontext(text, run_marine=run_marine), speed, half_tone
+    )
 
 
 def run_frontend(text):
