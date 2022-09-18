@@ -117,7 +117,9 @@ def estimate_accent(njd_features):
         try:
             from marine.predict import Predictor
         except BaseException:
-            raise ImportError("Please install marine by `pip install pyopenjtalk[marine]`")
+            raise ImportError(
+                "Please install marine by `pip install pyopenjtalk[marine]`"
+            )
         _global_marine = Predictor()
     from marine.utils.openjtalk_util import convert_njd_feature_to_marine_feature
 
