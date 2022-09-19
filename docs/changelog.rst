@@ -91,3 +91,4 @@ Initial release with OpenJTalk's text processsing functionality
 .. _#27: https://github.com/r9y9/pyopenjtalk/issues/27
 .. _#29: https://github.com/r9y9/pyopenjtalk/pull/29
 .. _#35: https://github.com/r9y9/pyopenjtalk/pull/35
+.. _#40: https://github.com/r9y9/pyopenjtalk/pull/40
