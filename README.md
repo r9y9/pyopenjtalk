@@ -107,7 +107,7 @@ Out[3]: 'コンニチワ'
 
 ### About `run_marine` option
 
-After v0.2.1, the `run_marine` option has been available for estimating the Japanese accent with the DNN-based method (see [marine](https://github.com/6gsn/marine)). If you want to use the feature, please install pyopenjtalk as below;
+After v0.3.0, the `run_marine` option has been available for estimating the Japanese accent with the DNN-based method (see [marine](https://github.com/6gsn/marine)). If you want to use the feature, please install pyopenjtalk as below;
 
 ```shell
 pip install pyopenjtalk[marine]
@@ -118,9 +118,9 @@ And then, you can use the option as the following examples;
 ```python
 In [1]: import pyopenjtalk
 
-In [2]: x, sr = pyopenjtalk.tts("おめでとうございます") # for TTS
+In [2]: x, sr = pyopenjtalk.tts("おめでとうございます", run_marine=True) # for TTS
 
-In [3]: label = pyopenjtalk.extract_fullcontext("こんにちは") # for text processing frontend only
+In [3]: label = pyopenjtalk.extract_fullcontext("こんにちは", run_marine=True) # for text processing frontend only
 ```
 
 
