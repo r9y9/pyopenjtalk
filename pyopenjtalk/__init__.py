@@ -181,7 +181,7 @@ def tts(text, speed=1.0, half_tone=0.0, run_marine=False):
         text (str): Input text
         speed (float): speech speed rate. Default is 1.0.
         half_tone (float): additional half-tone. Default is 0.
-        run_marine (bool): Whether estimate accent using marine.
+        run_marine (bool): Whether to estimate accent using marine.
           Default is False. If you want activate this option, you need to install marine
           by `pip install pyopenjtalk[marine]`
 
