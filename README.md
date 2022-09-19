@@ -129,7 +129,7 @@ In [3]: label = pyopenjtalk.extract_fullcontext("こんにちは", run_marine=Tr
 - pyopenjtalk: MIT license ([LICENSE.md](LICENSE.md))
 - Open JTalk: Modified BSD license ([COPYING](https://github.com/r9y9/open_jtalk/blob/1.10/src/COPYING))
 - htsvoice in this repository: Please check [pyopenjtalk/htsvoice/README.md](pyopenjtalk/htsvoice/README.md).
-- marine: marine: Apache 2.0 license ([LICENSE](https://github.com/6gsn/marine/blob/main/LICENSE))
+- marine: Apache 2.0 license ([LICENSE](https://github.com/6gsn/marine/blob/main/LICENSE))
 
 ## Acknowledgements
 
