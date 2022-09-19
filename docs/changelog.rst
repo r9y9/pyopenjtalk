@@ -6,6 +6,7 @@ v0.3.0 <2022-xx-xx>
 
 Newer numpy  (>v1.20.0) is required to avoid ABI compatibility issues. Please check the updated installation guide.
 
+* `#40`_: Introduce marine for Japanese accent estimation. Note that there could be a breakpoint regarding `run_frontend` because this PR changed the behavior of the API.
 * `#35`_: Fixes for Python 3.10.
 
 v0.2.0 <2022-02-06>
@@ -90,3 +91,4 @@ Initial release with OpenJTalk's text processsing functionality
 .. _#27: https://github.com/r9y9/pyopenjtalk/issues/27
 .. _#29: https://github.com/r9y9/pyopenjtalk/pull/29
 .. _#35: https://github.com/r9y9/pyopenjtalk/pull/35
+.. _#40: https://github.com/r9y9/pyopenjtalk/pull/40
