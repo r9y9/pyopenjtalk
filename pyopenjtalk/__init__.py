@@ -136,7 +136,7 @@ def extract_fullcontext(text, run_marine=False):
 
     Args:
         text (str): Input text
-        run_marine (bool): Whether estimate accent using marine.
+        run_marine (bool): Whether to estimate accent using marine.
           Default is False. If you want activate this option, you need to install marine
           by `pip install pyopenjtalk[marine]`
 
