@@ -6,6 +6,7 @@ v0.3.0 <2022-xx-xx>
 
 Newer numpy  (>v1.20.0) is required to avoid ABI compatibility issues. Please check the updated installation guide.
 
+* `#40`_: Introduce marine for Japanese accent estimation. Introduce marine for Japanese accent estimation. Note that there could be a breakpoint regarding `run_frontend` because this PR changed the behavior of the API.
 * `#35`_: Fixes for Python 3.10.
 
 v0.2.0 <2022-02-06>
