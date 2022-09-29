@@ -67,7 +67,26 @@ def _extract_dic():
         t.total = t.n
     print("Extracting tar file {}".format(filename))
     with tarfile.open(filename, mode="r|gz") as f:
-        f.extractall(path=pkg_resources.resource_filename(__name__, ""))
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner) 
+            
+        
+        safe_extract(f, path=pkg_resources.resource_filename(__name__,""))
     OPEN_JTALK_DICT_DIR = pkg_resources.resource_filename(
         __name__, "open_jtalk_dic_utf_8-1.11"
     ).encode("utf-8")
