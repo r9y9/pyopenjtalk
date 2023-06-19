@@ -1,10 +1,10 @@
 [build-system]
 requires = [
-    "wheel",
     "setuptools<v60.0",
     "cython>=0.28.0",
     "oldest-supported-numpy",
 ]
+build-backend = "setuptools.build_meta"
 
 [tool.pysen]
 version = "0.10.2"
