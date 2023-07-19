@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     "setuptools<v60.0",
-    "cython>=0.28.0",
+    "cython>=0.28.0,<3.0.0",
     "oldest-supported-numpy",
 ]
 build-backend = "setuptools.build_meta"
