@@ -10,8 +10,8 @@ np.import_array()
 cimport cython
 from libc.stdlib cimport malloc, free
 
-from htsengine cimport HTS_Engine
-from htsengine cimport (
+from .htsengine cimport HTS_Engine
+from .htsengine cimport (
     HTS_Engine_initialize, HTS_Engine_load, HTS_Engine_clear, HTS_Engine_refresh,
     HTS_Engine_get_sampling_frequency, HTS_Engine_get_fperiod,
     HTS_Engine_set_speed, HTS_Engine_add_half_tone,
