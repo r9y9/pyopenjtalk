@@ -277,7 +277,7 @@ setup(
     cmdclass=cmdclass,
     install_requires=[
         "numpy >= 1.20.0",
-        "cython >= " + min_cython_ver,
+        "cython >= " + min_cython_ver + ",<3.0.0",
         "six",
         "tqdm",
     ],
