@@ -277,7 +277,6 @@ setup(
     cmdclass=cmdclass,
     install_requires=[
         "numpy >= 1.20.0",
-        "cython >= " + min_cython_ver + ",<3.0.0",
         "six",
         "tqdm",
     ],
@@ -291,7 +290,8 @@ setup(
             "ipython",
             "jupyter",
         ],
-        "lint": [
+        "dev": [
+            "cython >= " + min_cython_ver + ",<3.0.0",
             "pysen",
             "types-setuptools",
             "mypy<=0.910",

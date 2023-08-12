@@ -40,7 +40,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -e ".[lint]"
+        pip install -e ".[dev]"
     - name: Lint with pysen
       run: |
         pysen run lint
