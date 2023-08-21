@@ -73,7 +73,12 @@ else:
 
 def check_cmake_in_path():
     try:
-        result = subprocess.run(['cmake', '--version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(
+            ["cmake", "--version"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
         if result.returncode == 0:
             # CMake is in the system path
             return True, result.stdout.strip()
@@ -85,14 +90,22 @@ def check_cmake_in_path():
         return False, None
 
 
-if os.name == 'nt':  # Check if the OS is Windows
+if os.name == "nt":  # Check if the OS is Windows
     # Check if CMake is in the system path
     cmake_found, cmake_version = check_cmake_in_path()
 
     if cmake_found:
-        print(f"CMake is in the system path. Version: {cmake_version}")
+        print(
+            f"CMake is in the system path. Version: \
+              {cmake_version}"
+        )
     else:
-        raise SystemError("CMake is not found in the system path. Make sure CMake is installed and in the system path.")
+        raise SystemError(
+            "CMake is not found in the \
+                          system path. Make sure CMake \
+                          is installed and in the system \
+                          path."
+        )
 
 
 # Workaround for `distutils.spawn` problem on Windows python < 3.9
