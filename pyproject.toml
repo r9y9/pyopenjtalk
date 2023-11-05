@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     "setuptools<v60.0",
-    "cython>=0.28.0,<3.0.0",
+    "cython>=0.28.0",
     "cmake",
     "numpy>=1.25.0; python_version>='3.9'",
     "oldest-supported-numpy; python_version<'3.9'",
@@ -18,6 +18,6 @@ enable_isort = true
 enable_mypy = false # TODO: enable mypy in the future
 mypy_preset = "strict"
 line_length = 88
-py_version = "py37"
+py_version = "py38"
 [[tool.pysen.lint.mypy_targets]]
   paths = ["."]
