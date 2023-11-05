@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     "setuptools<v60.0",
-    "cython>=0.28.0,<3.0.0",
+    "cython>=0.28.0",
     "cmake",
     "numpy>=1.25.0; python_version>='3.9'",
     "oldest-supported-numpy; python_version<'3.9'",
