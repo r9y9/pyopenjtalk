@@ -1,3 +1,5 @@
+import tempfile
+
 import pyopenjtalk
 
 
@@ -80,3 +82,30 @@ def test_g2p_phone():
     ]:
         p = pyopenjtalk.g2p(text, kana=False)
         assert p == pron
+
+
+def test_userdic():
+    for text, expected in [
+        ("nnmn", "n a n a m i N"),
+        ("GNU", "g u n u u"),
+    ]:
+        p = pyopenjtalk.g2p(text)
+        assert p != expected
+
+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", suffix=".csv") as f:
+        f.write("ｎｎｍｎ,,,1,名詞,一般,*,*,*,*,ｎｎｍｎ,ナナミン,ナナミン,1/4,*\n")  #
+        f.write("ＧＮＵ,,,1,名詞,一般,*,*,*,*,ＧＮＵ,グヌー,グヌー,2/3,*\n")
+        f.flush()
+
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", suffix=".dic"
+        ) as f2:
+            pyopenjtalk.mecab_dict_index(f.name, f2.name)
+            pyopenjtalk.update_global_jtalk_with_user_dict(f2.name)
+
+    for text, expected in [
+        ("nnmn", "n a n a m i N"),
+        ("GNU", "g u n u u"),
+    ]:
+        p = pyopenjtalk.g2p(text)
+        assert p == expected
