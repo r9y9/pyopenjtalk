@@ -1,4 +1,4 @@
-import tempfile
+from pathlib import Path
 
 import pyopenjtalk
 
@@ -92,16 +92,15 @@ def test_userdic():
         p = pyopenjtalk.g2p(text)
         assert p != expected
 
-    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", suffix=".csv") as f:
-        f.write("ｎｎｍｎ,,,1,名詞,一般,*,*,*,*,ｎｎｍｎ,ナナミン,ナナミン,1/4,*\n")  #
-        f.write("ＧＮＵ,,,1,名詞,一般,*,*,*,*,ＧＮＵ,グヌー,グヌー,2/3,*\n")
-        f.flush()
+    user_csv = str(Path(__file__).parent / "test_data" / "user.csv")
+    user_dic = str(Path(__file__).parent / "test_data" / "user.dic")
 
-        with tempfile.NamedTemporaryFile(
-            mode="w", encoding="utf-8", suffix=".dic"
-        ) as f2:
-            pyopenjtalk.mecab_dict_index(f.name, f2.name)
-            pyopenjtalk.update_global_jtalk_with_user_dict(f2.name)
+    with open(user_csv, "w", encoding="utf-8") as f:
+        f.write("ｎｎｍｎ,,,1,名詞,一般,*,*,*,*,ｎｎｍｎ,ナナミン,ナナミン,1/4,*\n")
+        f.write("ＧＮＵ,,,1,名詞,一般,*,*,*,*,ＧＮＵ,グヌー,グヌー,2/3,*\n")
+
+    pyopenjtalk.mecab_dict_index(f.name, user_dic)
+    pyopenjtalk.update_global_jtalk_with_user_dict(user_dic)
 
     for text, expected in [
         ("nnmn", "n a n a m i N"),
