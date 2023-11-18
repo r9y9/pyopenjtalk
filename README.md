@@ -105,6 +105,38 @@ In [3]: pyopenjtalk.g2p("こんにちは", kana=True)
 Out[3]: 'コンニチワ'
 ```
 
+### Create/Apply user dictionary
+
+1. Create a CSV file (e.g. `user.csv`) and write custom words like below:
+
+```csv
+ＧＮＵ,,,1,名詞,一般,*,*,*,*,ＧＮＵ,グヌー,グヌー,2/3,*
+```
+
+2. Call `mecab_dict_index` to compile the CSV file.
+
+```python
+In [1]: import pyopenjtalk
+
+In [2]: pyopenjtalk.mecab_dict_index("user.csv", "user.dic")
+reading user.csv ... 1
+emitting double-array: 100% |###########################################|
+
+done!
+```
+
+3. Call `update_global_jtalk_with_user_dict` to apply the user dictionary.
+
+```python
+In [3]: pyopenjtalk.g2p("GNU")
+Out[3]: 'j i i e n u y u u'
+
+In [4]: pyopenjtalk.update_global_jtalk_with_user_dict("user.dic")
+
+In [5]: pyopenjtalk.g2p("GNU")
+Out[5]: 'g u n u u'
+```
+
 ### About `run_marine` option
 
 After v0.3.0, the `run_marine` option has been available for estimating the Japanese accent with the DNN-based method (see [marine](https://github.com/6gsn/marine)). If you want to use the feature, please install pyopenjtalk as below;

@@ -16,3 +16,14 @@ cdef extern from "mecab.h":
     char **Mecab_get_feature(Mecab *m)
     cdef int Mecab_refresh(Mecab *m)
     cdef int Mecab_clear(Mecab *m)
+    cdef int mecab_dict_index(int argc, char **argv)
+
+cdef extern from "mecab.h" namespace "MeCab":
+    cdef cppclass Tagger:
+        pass
+    cdef cppclass Lattice:
+        pass
+    cdef cppclass Model:
+        Tagger *createTagger()
+        Lattice *createLattice()
+    cdef Model *createModel(int argc, char **argv)

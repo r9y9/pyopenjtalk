@@ -9,9 +9,12 @@ np.import_array()
 
 cimport cython
 from libc.stdlib cimport calloc
+from libc.string cimport strlen
 
 from .openjtalk.mecab cimport Mecab, Mecab_initialize, Mecab_load, Mecab_analysis
 from .openjtalk.mecab cimport Mecab_get_feature, Mecab_get_size, Mecab_refresh, Mecab_clear
+from .openjtalk.mecab cimport createModel, Model, Tagger, Lattice
+from .openjtalk.mecab cimport mecab_dict_index as _mecab_dict_index
 from .openjtalk.njd cimport NJD, NJD_initialize, NJD_refresh, NJD_print, NJD_clear
 from .openjtalk cimport njd as _njd
 from .openjtalk.jpcommon cimport JPCommon, JPCommon_initialize,JPCommon_make_label
@@ -116,18 +119,52 @@ cdef feature2njd(_njd.NJD* njd, features):
         _njd.NJDNode_set_chain_flag(node, feature_node["chain_flag"])
         _njd.NJD_push_node(njd, node)
 
+# based on Mecab_load in impl. from mecab.cpp
+cdef inline int Mecab_load_with_userdic(Mecab *m, char* dicdir, char* userdic):
+    if userdic == NULL or strlen(userdic) == 0:
+        return Mecab_load(m, dicdir)
+
+    if m == NULL or dicdir == NULL or strlen(dicdir) == 0:
+        return 0
+
+    Mecab_clear(m)
+
+    cdef (char*)[5] argv = ["mecab", "-d", dicdir, "-u", userdic]
+    cdef Model *model = createModel(5, argv)
+
+    if model == NULL:
+        return 0
+    m.model = model
+
+    cdef Tagger *tagger = model.createTagger()
+    if tagger == NULL:
+        Mecab_clear(m)
+        return 0
+    m.tagger = tagger
+
+    cdef Lattice *lattice = model.createLattice()
+    if lattice == NULL:
+        Mecab_clear(m)
+        return 0
+    m.lattice = lattice
+
+    return 1
+
 
 cdef class OpenJTalk(object):
     """OpenJTalk
 
     Args:
         dn_mecab (bytes): Dictionaly path for MeCab.
+        userdic (bytes): Dictionary path for MeCab userdic.
+            This option is ignored when empty bytestring is given.
+            Default is empty.
     """
     cdef Mecab* mecab
     cdef NJD* njd
     cdef JPCommon* jpcommon
 
-    def __cinit__(self, bytes dn_mecab=b"/usr/local/dic"):
+    def __cinit__(self, bytes dn_mecab=b"/usr/local/dic", bytes userdic=b""):
         self.mecab = new Mecab()
         self.njd = new NJD()
         self.jpcommon = new JPCommon()
@@ -136,7 +173,7 @@ cdef class OpenJTalk(object):
         NJD_initialize(self.njd)
         JPCommon_initialize(self.jpcommon)
 
-        r = self._load(dn_mecab)
+        r = self._load(dn_mecab, userdic)
         if r != 1:
           self._clear()
           raise RuntimeError("Failed to initalize Mecab")
@@ -147,8 +184,8 @@ cdef class OpenJTalk(object):
       NJD_clear(self.njd)
       JPCommon_clear(self.jpcommon)
 
-    def _load(self, bytes dn_mecab):
-        return Mecab_load(self.mecab, dn_mecab)
+    def _load(self, bytes dn_mecab, bytes userdic):
+        return Mecab_load_with_userdic(self.mecab, dn_mecab, userdic)
 
 
     def run_frontend(self, text):
@@ -231,3 +268,18 @@ cdef class OpenJTalk(object):
         del self.mecab
         del self.njd
         del self.jpcommon
+
+def mecab_dict_index(bytes dn_mecab, bytes path, bytes out_path):
+    cdef (char*)[10] argv = [
+        "mecab-dict-index",
+        "-d",
+        dn_mecab,
+        "-u",
+        out_path,
+        "-f",
+        "utf-8",
+        "-t",
+        "utf-8",
+        path
+    ]
+    return _mecab_dict_index(10, argv)
