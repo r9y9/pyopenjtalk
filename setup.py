@@ -313,8 +313,8 @@ setup(
     ext_modules=ext_modules,
     cmdclass=cmdclass,
     install_requires=[
+        "importlib_resources; python_version<'3.9'",
         "numpy >= 1.20.0",
-        "six",
         "tqdm",
     ],
     tests_require=["nose", "coverage"],
