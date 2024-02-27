@@ -1,7 +1,8 @@
 [build-system]
 requires = [
     "setuptools>=66.1.0; python_version>='3.12'",
-    "setuptools<v60.0; python_version<'3.12'",
+    "setuptools>=60.0.0; sys.platform=='win32'",
+    "setuptools<v60.0; python_version<'3.12' and sys.platform!='win32'",
     "cython>=0.28.0",
     "cmake",
     "numpy>=1.25.0; python_version>='3.9'",
