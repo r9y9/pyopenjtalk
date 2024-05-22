@@ -42,6 +42,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e ".[dev]"
     - name: Lint with pysen
+      if: ${{ matrix.python-version != '3.7' }}
       run: |
         pysen run lint
     - name: Test with pytest
