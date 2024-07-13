@@ -1,16 +1,16 @@
+import atexit
 import os
-from os.path import exists
-
-import pkg_resources
-import six
-from tqdm.auto import tqdm
-
-if six.PY2:
-    from urllib import urlretrieve
-else:
-    from urllib.request import urlretrieve
-
+import sys
 import tarfile
+import tempfile
+from contextlib import ExitStack
+from os.path import exists
+from urllib.request import urlopen
+
+if sys.version_info >= (3, 9):
+    from importlib.resources import as_file, files
+else:
+    from importlib_resources import as_file, files
 
 try:
     from .version import __version__  # NOQA
@@ -22,18 +22,26 @@ from .openjtalk import OpenJTalk
 from .openjtalk import mecab_dict_index as _mecab_dict_index
 from .utils import merge_njd_marine_features
 
+_file_manager = ExitStack()
+atexit.register(_file_manager.close)
+
+_pyopenjtalk_ref = files(__name__)
+_dic_dir_name = "open_jtalk_dic_utf_8-1.11"
+
 # Dictionary directory
 # defaults to the package directory where the dictionary will be automatically downloaded
 OPEN_JTALK_DICT_DIR = os.environ.get(
     "OPEN_JTALK_DICT_DIR",
-    pkg_resources.resource_filename(__name__, "open_jtalk_dic_utf_8-1.11"),
+    str(_file_manager.enter_context(as_file(_pyopenjtalk_ref / _dic_dir_name))),
 ).encode("utf-8")
 _dict_download_url = "https://github.com/r9y9/open_jtalk/releases/download/v1.11.1"
 _DICT_URL = f"{_dict_download_url}/open_jtalk_dic_utf_8-1.11.tar.gz"
 
 # Default mei_normal.voice for HMM-based TTS
-DEFAULT_HTS_VOICE = pkg_resources.resource_filename(
-    __name__, "htsvoice/mei_normal.htsvoice"
+DEFAULT_HTS_VOICE = str(
+    _file_manager.enter_context(
+        as_file(_pyopenjtalk_ref / "htsvoice/mei_normal.htsvoice")
+    )
 ).encode("utf-8")
 
 # Global instance of OpenJTalk
@@ -45,34 +53,24 @@ _global_htsengine = None
 _global_marine = None
 
 
-# https://github.com/tqdm/tqdm#hooks-and-callbacks
-class _TqdmUpTo(tqdm):  # type: ignore
-    def update_to(self, b=1, bsize=1, tsize=None):
-        if tsize is not None:
-            self.total = tsize
-        return self.update(b * bsize - self.n)
-
-
 def _extract_dic():
+    from tqdm.auto import tqdm
+
     global OPEN_JTALK_DICT_DIR
-    filename = pkg_resources.resource_filename(__name__, "dic.tar.gz")
-    print('Downloading: "{}"'.format(_DICT_URL))
-    with _TqdmUpTo(
-        unit="B",
-        unit_scale=True,
-        unit_divisor=1024,
-        miniters=1,
-        desc="dic.tar.gz",
-    ) as t:  # all optional kwargs
-        urlretrieve(_DICT_URL, filename, reporthook=t.update_to)
-        t.total = t.n
-    print("Extracting tar file {}".format(filename))
-    with tarfile.open(filename, mode="r|gz") as f:
-        f.extractall(path=pkg_resources.resource_filename(__name__, ""))
-    OPEN_JTALK_DICT_DIR = pkg_resources.resource_filename(
-        __name__, "open_jtalk_dic_utf_8-1.11"
-    ).encode("utf-8")
-    os.remove(filename)
+    pyopenjtalk_dir = _file_manager.enter_context(as_file(_pyopenjtalk_ref))
+    with tempfile.TemporaryFile() as t:
+        print('Downloading: "{}"'.format(_DICT_URL))
+        with urlopen(_DICT_URL) as response:
+            with tqdm.wrapattr(
+                t, "write", total=getattr(response, "length", None)
+            ) as tar:
+                for chunk in response:
+                    tar.write(chunk)
+        t.seek(0)
+        print("Extracting tar file")
+        with tarfile.open(mode="r|gz", fileobj=t) as f:
+            f.extractall(path=pyopenjtalk_dir)
+    OPEN_JTALK_DICT_DIR = str(pyopenjtalk_dir / _dic_dir_name).encode("utf-8")
 
 
 def _lazy_init():
