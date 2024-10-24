@@ -16,7 +16,7 @@ cdef extern from "mecab.h":
     char **Mecab_get_feature(Mecab *m)
     cdef int Mecab_refresh(Mecab *m)
     cdef int Mecab_clear(Mecab *m)
-    cdef int mecab_dict_index(int argc, char **argv)
+    cdef int mecab_dict_index(int argc, char **argv) nogil
 
 cdef extern from "mecab.h" namespace "MeCab":
     cdef cppclass Tagger:

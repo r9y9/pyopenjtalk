@@ -20,7 +20,6 @@ from .openjtalk cimport njd as _njd
 from .openjtalk.jpcommon cimport JPCommon, JPCommon_initialize,JPCommon_make_label
 from .openjtalk.jpcommon cimport JPCommon_get_label_size, JPCommon_get_label_feature
 from .openjtalk.jpcommon cimport JPCommon_refresh, JPCommon_clear
-from .openjtalk cimport njd2jpcommon
 from .openjtalk.text2mecab cimport text2mecab
 from .openjtalk.mecab2njd cimport mecab2njd
 from .openjtalk.njd2jpcommon cimport njd2jpcommon
@@ -282,4 +281,7 @@ def mecab_dict_index(bytes dn_mecab, bytes path, bytes out_path):
         "utf-8",
         path
     ]
-    return _mecab_dict_index(10, argv)
+    cdef int ret
+    with nogil:
+        ret = _mecab_dict_index(10, argv)
+    return ret
