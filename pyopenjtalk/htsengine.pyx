@@ -33,13 +33,14 @@ cdef class HTSEngine(object):
         HTS_Engine_initialize(self.engine)
 
         if self.load(voice) != 1:
-          self.clear()
-          raise RuntimeError("Failed to initalize HTS_Engine")
+            self.clear()
+            raise RuntimeError("Failed to initalize HTS_Engine")
 
     def load(self, bytes voice):
         cdef char* voices = voice
         cdef char ret
-        ret = HTS_Engine_load(self.engine, &voices, 1)
+        with nogil:
+            ret = HTS_Engine_load(self.engine, &voices, 1)
         return ret
 
     def get_sampling_frequency(self):
@@ -85,21 +86,25 @@ cdef class HTSEngine(object):
         """Synthesize from strings"""
         cdef size_t num_lines = len(labels)
         cdef char **lines = <char**> malloc((num_lines + 1) * sizeof(char*))
-        for n in range(len(labels)):
+        for n in range(num_lines):
             lines[n] = <char*>labels[n]
 
-        cdef char ret = HTS_Engine_synthesize_from_strings(self.engine, lines, num_lines)
-        free(lines)
+        cdef char ret
+        with nogil:
+            ret = HTS_Engine_synthesize_from_strings(self.engine, lines, num_lines)
+            free(lines)
         if ret != 1:
             raise RuntimeError("Failed to run synthesize_from_strings")
 
     def get_generated_speech(self):
         """Get generated speech"""
         cdef size_t nsamples = HTS_Engine_get_nsamples(self.engine)
-        cdef np.ndarray speech = np.zeros([nsamples], dtype=np.float64)
+        cdef np.ndarray speech = np.empty([nsamples], dtype=np.float64)
+        cdef double[:] speech_view = speech
         cdef size_t index
-        for index in range(nsamples):
-            speech[index] = HTS_Engine_get_generated_speech(self.engine, index)
+        with (nogil, cython.boundscheck(False)):
+            for index in range(nsamples):
+                speech_view[index] = HTS_Engine_get_generated_speech(self.engine, index)
         return speech
 
     def get_fullcontext_label_format(self):
