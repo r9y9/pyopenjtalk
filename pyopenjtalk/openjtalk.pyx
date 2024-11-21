@@ -2,6 +2,9 @@
 # cython: boundscheck=True, wraparound=True
 # cython: c_string_type=unicode, c_string_encoding=ascii
 
+from contextlib import contextmanager
+from threading import Lock
+
 from libc.stdlib cimport calloc
 from libc.string cimport strlen
 
@@ -143,6 +146,16 @@ cdef inline int Mecab_load_with_userdic(Mecab *m, char* dicdir, char* userdic) n
 
     return 1
 
+def _generate_lock_manager():
+    lock = Lock()
+
+    @contextmanager
+    def f():
+        with lock:
+            yield
+
+    return f
+
 
 cdef class OpenJTalk(object):
     """OpenJTalk
@@ -156,6 +169,7 @@ cdef class OpenJTalk(object):
     cdef Mecab* mecab
     cdef NJD* njd
     cdef JPCommon* jpcommon
+    _lock_manager = _generate_lock_manager()
 
     def __cinit__(self, bytes dn_mecab=b"/usr/local/dic", bytes userdic=b""):
         cdef char* _dn_mecab = dn_mecab
@@ -183,6 +197,7 @@ cdef class OpenJTalk(object):
     cdef int _load(self, char* dn_mecab, char* userdic) noexcept nogil:
         return Mecab_load_with_userdic(self.mecab, dn_mecab, userdic)
 
+    @_lock_manager()
     def run_frontend(self, text):
         """Run OpenJTalk's text processing frontend
         """
@@ -209,6 +224,7 @@ cdef class OpenJTalk(object):
 
         return features
 
+    @_lock_manager()
     def make_label(self, features):
         """Make full-context label
         """
