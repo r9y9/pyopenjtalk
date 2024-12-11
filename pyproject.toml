@@ -14,7 +14,7 @@ name = "pyopenjtalk"
 dynamic = ["version"]
 description = "A python wrapper for OpenJTalk"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license.file = "LICENSE.md"
 authors = [{ name = "Ryuichi Yamamoto", email = "zryuichi@gmail.com" }]
 keywords = ["OpenJTalk", "Research"]
