@@ -74,9 +74,8 @@ find.namespaces = false
 "*" = ["*.pyx", "*.pxd"]
 
 [tool.setuptools_scm]
-# NOTE: write_to is deprecated, but version_file is not supported in Python 3.7.
-write_to = "pyopenjtalk/version.py"
-write_to_template = '''
+version_file = "pyopenjtalk/version.py"
+version_file_template = '''
 __version__ = "{version}"
 '''
 
