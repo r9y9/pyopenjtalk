@@ -14,7 +14,7 @@ TAG=$(git describe --exact-match --tags HEAD)
 
 VERSION=${TAG/v/}
 
-PYOPENJTALK_BUILD_VERSION=$VERSION python setup.py develop sdist
+python -m build --sdist
 echo "*** Ready to release! pyopenjtalk $TAG ***"
 echo "Please make sure that release verion is correct."
 cat pyopenjtalk/version.py

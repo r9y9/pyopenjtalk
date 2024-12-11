@@ -1,14 +1,83 @@
 [build-system]
 requires = [
-    "setuptools>=66.1.0; python_version>='3.12'",
-    "setuptools>=60.0.0; sys.platform=='win32'",
-    "setuptools<v60.0; python_version<'3.12' and sys.platform!='win32'",
+    "setuptools>=64",
+    "setuptools_scm>=8",
     "cython>=0.28.0",
     "cmake",
     "numpy>=1.25.0; python_version>='3.9'",
     "oldest-supported-numpy; python_version<'3.9'",
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyopenjtalk"
+dynamic = ["version"]
+description = "A python wrapper for OpenJTalk"
+readme = "README.md"
+requires-python = ">=3.8"
+license.file = "LICENSE.md"
+authors = [{ name = "Ryuichi Yamamoto", email = "zryuichi@gmail.com" }]
+keywords = ["OpenJTalk", "Research"]
+classifiers = [
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Cython",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+]
+urls.Homepage = "https://github.com/r9y9/pyopenjtalk"
+dependencies = [
+    "importlib_resources; python_version<'3.9'",
+    "numpy>=1.20.0",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx_rtd_theme",
+    "nbsphinx>=0.8.6",
+    "Jinja2>=3.0.1",
+    "pandoc",
+    "ipython",
+    "jupyter",
+]
+dev = [
+    "cython>=0.28.0",
+    "pysen",
+    "types-setuptools",
+    "mypy<=0.910",
+    "black>=19.19b0,<=20.8",
+    "click<8.1.0",
+    "flake8>=3.7,<4",
+    "flake8-bugbear",
+    "isort>=4.3,<5.2.0",
+    "types-decorator",
+    "importlib-metadata<5.0",
+]
+test = ["pytest", "scipy"]
+marine = ["marine>=0.0.5"]
+
+[tool.setuptools.packages]
+find.namespaces = false
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.pyx", "*.pxd"]
+
+[tool.setuptools_scm]
+version_file = "pyopenjtalk/version.py"
+version_file_template = '''
+__version__ = "{version}"
+'''
 
 [tool.pysen]
 version = "0.10.2"
