@@ -119,7 +119,7 @@ ext_modules = [
     Extension(
         name="pyopenjtalk.openjtalk",
         sources=[join("pyopenjtalk", "openjtalk.pyx")] + all_src,
-        include_dirs=[np.get_include()] + include_dirs,
+        include_dirs=include_dirs,
         extra_compile_args=[],
         extra_link_args=[],
         language="c++",

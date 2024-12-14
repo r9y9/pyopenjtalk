@@ -66,7 +66,7 @@ cdef extern from "njd.h":
         NJDNode *head
         NJDNode *tail
 
-    void NJD_initialize(NJD * njd)
+    void NJD_initialize(NJD * njd) nogil
     void NJD_load(NJD * njd, const char *str)
     void NJD_load_from_fp(NJD * njd, FILE * fp)
     int NJD_get_size(NJD * njd)
@@ -76,22 +76,22 @@ cdef extern from "njd.h":
     void NJD_fprint(NJD * njd, FILE * fp)
     void NJD_sprint(NJD * njd, char *buff, const char *split_code)
     void NJD_refresh(NJD * njd)
-    void NJD_clear(NJD * wl)
+    void NJD_clear(NJD * wl) nogil
 
 cdef extern from "njd_set_accent_phrase.h":
-    void njd_set_accent_phrase(NJD * njd)
+    void njd_set_accent_phrase(NJD * njd) nogil
 
 cdef extern from "njd_set_accent_type.h":
-    void njd_set_accent_type(NJD * njd)
+    void njd_set_accent_type(NJD * njd) nogil
 
 cdef extern from "njd_set_digit.h":
-    void njd_set_digit(NJD * njd)
+    void njd_set_digit(NJD * njd) nogil
 
 cdef extern from "njd_set_long_vowel.h":
-    void njd_set_long_vowel(NJD * njd)
+    void njd_set_long_vowel(NJD * njd) nogil
 
 cdef extern from "njd_set_pronunciation.h":
-    void njd_set_pronunciation(NJD * njd)
+    void njd_set_pronunciation(NJD * njd) nogil
 
 cdef extern from "njd_set_unvoiced_vowel.h":
-    void njd_set_unvoiced_vowel(NJD * njd)
+    void njd_set_unvoiced_vowel(NJD * njd) nogil
