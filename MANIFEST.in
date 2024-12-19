@@ -2,6 +2,6 @@ include pyopenjtalk/version.py
 exclude .gitignore .gitmodules .travis.yml release.sh tox.ini
 prune .github/*
 prune docs/**
-recursive-include lib *.cpp *.c *.h README LICENSE COPYING CMakeLists.txt *.in
+recursive-include lib *.cpp *.c *.h README COPYING CMakeLists.txt *.in
 exclude lib/open_jtalk/src/mecab/src/config.h
 prune lib/open_jtalk/src/build/**
