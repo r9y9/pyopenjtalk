@@ -1,6 +1,7 @@
 # coding: utf-8
 # cython: boundscheck=True, wraparound=True
 # cython: c_string_type=unicode, c_string_encoding=ascii
+# cython: language_level=3
 
 import numpy as np
 
@@ -19,7 +20,7 @@ from .htsengine cimport (
     HTS_Engine_get_generated_speech, HTS_Engine_get_nsamples
 )
 
-cdef class HTSEngine(object):
+cdef class HTSEngine:
     """HTSEngine
 
     Args:

@@ -1,6 +1,7 @@
 # coding: utf-8
 # cython: boundscheck=True, wraparound=True
 # cython: c_string_type=unicode, c_string_encoding=ascii
+# cython: language_level=3
 
 import numpy as np
 
@@ -151,7 +152,7 @@ cdef inline int Mecab_load_with_userdic(Mecab *m, char* dicdir, char* userdic):
     return 1
 
 
-cdef class OpenJTalk(object):
+cdef class OpenJTalk:
     """OpenJTalk
 
     Args:
