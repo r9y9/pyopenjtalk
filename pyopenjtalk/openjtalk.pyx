@@ -3,12 +3,9 @@
 # cython: c_string_type=unicode, c_string_encoding=ascii
 # cython: language_level=3
 
-import numpy as np
+from contextlib import contextmanager
+from threading import Lock
 
-cimport numpy as np
-np.import_array()
-
-cimport cython
 from libc.stdlib cimport calloc
 from libc.string cimport strlen
 
@@ -21,7 +18,6 @@ from .openjtalk cimport njd as _njd
 from .openjtalk.jpcommon cimport JPCommon, JPCommon_initialize,JPCommon_make_label
 from .openjtalk.jpcommon cimport JPCommon_get_label_size, JPCommon_get_label_feature
 from .openjtalk.jpcommon cimport JPCommon_refresh, JPCommon_clear
-from .openjtalk cimport njd2jpcommon
 from .openjtalk.text2mecab cimport text2mecab
 from .openjtalk.mecab2njd cimport mecab2njd
 from .openjtalk.njd2jpcommon cimport njd2jpcommon
@@ -56,48 +52,48 @@ cdef njd_node_get_read(_njd.NJDNode* node):
 cdef njd_node_get_pron(_njd.NJDNode* node):
     return (<bytes>(_njd.NJDNode_get_pron(node))).decode("utf-8")
 
-cdef njd_node_get_acc(_njd.NJDNode* node):
+cdef int njd_node_get_acc(_njd.NJDNode* node) noexcept:
     return _njd.NJDNode_get_acc(node)
 
-cdef njd_node_get_mora_size(_njd.NJDNode* node):
+cdef int njd_node_get_mora_size(_njd.NJDNode* node) noexcept:
     return _njd.NJDNode_get_mora_size(node)
 
 cdef njd_node_get_chain_rule(_njd.NJDNode* node):
     return (<bytes>(_njd.NJDNode_get_chain_rule(node))).decode("utf-8")
 
-cdef njd_node_get_chain_flag(_njd.NJDNode* node):
-      return _njd.NJDNode_get_chain_flag(node)
+cdef int njd_node_get_chain_flag(_njd.NJDNode* node) noexcept:
+    return _njd.NJDNode_get_chain_flag(node)
 
 
 cdef node2feature(_njd.NJDNode* node):
-  return {
-    "string": njd_node_get_string(node),
-    "pos": njd_node_get_pos(node),
-    "pos_group1": njd_node_get_pos_group1(node),
-    "pos_group2": njd_node_get_pos_group2(node),
-    "pos_group3": njd_node_get_pos_group3(node),
-    "ctype": njd_node_get_ctype(node),
-    "cform": njd_node_get_cform(node),
-    "orig": njd_node_get_orig(node),
-    "read": njd_node_get_read(node),
-    "pron": njd_node_get_pron(node),
-    "acc": njd_node_get_acc(node),
-    "mora_size": njd_node_get_mora_size(node),
-    "chain_rule": njd_node_get_chain_rule(node),
-    "chain_flag": njd_node_get_chain_flag(node),
-  }
+    return {
+        "string": njd_node_get_string(node),
+        "pos": njd_node_get_pos(node),
+        "pos_group1": njd_node_get_pos_group1(node),
+        "pos_group2": njd_node_get_pos_group2(node),
+        "pos_group3": njd_node_get_pos_group3(node),
+        "ctype": njd_node_get_ctype(node),
+        "cform": njd_node_get_cform(node),
+        "orig": njd_node_get_orig(node),
+        "read": njd_node_get_read(node),
+        "pron": njd_node_get_pron(node),
+        "acc": njd_node_get_acc(node),
+        "mora_size": njd_node_get_mora_size(node),
+        "chain_rule": njd_node_get_chain_rule(node),
+        "chain_flag": njd_node_get_chain_flag(node),
+    }
 
 
 cdef njd2feature(_njd.NJD* njd):
     cdef _njd.NJDNode* node = njd.head
     features = []
     while node is not NULL:
-      features.append(node2feature(node))
-      node = node.next
+        features.append(node2feature(node))
+        node = node.next
     return features
 
 
-cdef feature2njd(_njd.NJD* njd, features):
+cdef void feature2njd(_njd.NJD* njd, features):
     cdef _njd.NJDNode* node
 
     for feature_node in features:
@@ -121,7 +117,7 @@ cdef feature2njd(_njd.NJD* njd, features):
         _njd.NJD_push_node(njd, node)
 
 # based on Mecab_load in impl. from mecab.cpp
-cdef inline int Mecab_load_with_userdic(Mecab *m, char* dicdir, char* userdic):
+cdef inline int Mecab_load_with_userdic(Mecab *m, char* dicdir, char* userdic) noexcept nogil:
     if userdic == NULL or strlen(userdic) == 0:
         return Mecab_load(m, dicdir)
 
@@ -151,6 +147,16 @@ cdef inline int Mecab_load_with_userdic(Mecab *m, char* dicdir, char* userdic):
 
     return 1
 
+def _generate_lock_manager():
+    lock = Lock()
+
+    @contextmanager
+    def f():
+        with lock:
+            yield
+
+    return f
+
 
 cdef class OpenJTalk:
     """OpenJTalk
@@ -164,31 +170,35 @@ cdef class OpenJTalk:
     cdef Mecab* mecab
     cdef NJD* njd
     cdef JPCommon* jpcommon
+    _lock_manager = _generate_lock_manager()
 
     def __cinit__(self, bytes dn_mecab=b"/usr/local/dic", bytes userdic=b""):
+        cdef char* _dn_mecab = dn_mecab
+        cdef char* _userdic = userdic
+
         self.mecab = new Mecab()
         self.njd = new NJD()
         self.jpcommon = new JPCommon()
 
-        Mecab_initialize(self.mecab)
-        NJD_initialize(self.njd)
-        JPCommon_initialize(self.jpcommon)
+        with nogil:
+            Mecab_initialize(self.mecab)
+            NJD_initialize(self.njd)
+            JPCommon_initialize(self.jpcommon)
 
-        r = self._load(dn_mecab, userdic)
-        if r != 1:
-          self._clear()
-          raise RuntimeError("Failed to initalize Mecab")
+            r = self._load(_dn_mecab, _userdic)
+            if r != 1:
+                self._clear()
+                raise RuntimeError("Failed to initalize Mecab")
 
+    cdef void _clear(self) noexcept nogil:
+        Mecab_clear(self.mecab)
+        NJD_clear(self.njd)
+        JPCommon_clear(self.jpcommon)
 
-    def _clear(self):
-      Mecab_clear(self.mecab)
-      NJD_clear(self.njd)
-      JPCommon_clear(self.jpcommon)
-
-    def _load(self, bytes dn_mecab, bytes userdic):
+    cdef int _load(self, char* dn_mecab, char* userdic) noexcept nogil:
         return Mecab_load_with_userdic(self.mecab, dn_mecab, userdic)
 
-
+    @_lock_manager()
     def run_frontend(self, text):
         """Run OpenJTalk's text processing frontend
         """
@@ -196,15 +206,17 @@ cdef class OpenJTalk:
 
         if isinstance(text, str):
             text = text.encode("utf-8")
-        text2mecab(buff, text)
-        Mecab_analysis(self.mecab, buff)
-        mecab2njd(self.njd, Mecab_get_feature(self.mecab), Mecab_get_size(self.mecab))
-        _njd.njd_set_pronunciation(self.njd)
-        _njd.njd_set_digit(self.njd)
-        _njd.njd_set_accent_phrase(self.njd)
-        _njd.njd_set_accent_type(self.njd)
-        _njd.njd_set_unvoiced_vowel(self.njd)
-        _njd.njd_set_long_vowel(self.njd)
+        cdef const char* _text = text
+        with nogil:
+            text2mecab(buff, _text)
+            Mecab_analysis(self.mecab, buff)
+            mecab2njd(self.njd, Mecab_get_feature(self.mecab), Mecab_get_size(self.mecab))
+            _njd.njd_set_pronunciation(self.njd)
+            _njd.njd_set_digit(self.njd)
+            _njd.njd_set_accent_phrase(self.njd)
+            _njd.njd_set_accent_type(self.njd)
+            _njd.njd_set_unvoiced_vowel(self.njd)
+            _njd.njd_set_long_vowel(self.njd)
         features = njd2feature(self.njd)
 
         # Note that this will release memory for njd feature
@@ -213,23 +225,24 @@ cdef class OpenJTalk:
 
         return features
 
+    @_lock_manager()
     def make_label(self, features):
         """Make full-context label
         """
         feature2njd(self.njd, features)
-        njd2jpcommon(self.jpcommon, self.njd)
+        with nogil:
+            njd2jpcommon(self.jpcommon, self.njd)
 
-        JPCommon_make_label(self.jpcommon)
+            JPCommon_make_label(self.jpcommon)
 
-        cdef int label_size = JPCommon_get_label_size(self.jpcommon)
-        cdef char** label_feature
-        label_feature = JPCommon_get_label_feature(self.jpcommon)
+            label_size = JPCommon_get_label_size(self.jpcommon)
+            label_feature = JPCommon_get_label_feature(self.jpcommon)
 
         labels = []
         for i in range(label_size):
-          # This will create a copy of c string
-          # http://cython.readthedocs.io/en/latest/src/tutorial/strings.html
-          labels.append(<unicode>label_feature[i])
+            # This will create a copy of c string
+            # http://cython.readthedocs.io/en/latest/src/tutorial/strings.html
+            labels.append(<unicode>label_feature[i])
 
         # Note that this will release memory for label feature
         JPCommon_refresh(self.jpcommon)
@@ -283,4 +296,7 @@ def mecab_dict_index(bytes dn_mecab, bytes path, bytes out_path):
         "utf-8",
         path
     ]
-    return _mecab_dict_index(10, argv)
+    cdef int ret
+    with nogil:
+        ret = _mecab_dict_index(10, argv)
+    return ret
