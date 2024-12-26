@@ -1,6 +1,7 @@
 # coding: utf-8
 # cython: boundscheck=True, wraparound=True
 # cython: c_string_type=unicode, c_string_encoding=ascii
+# cython: language_level=3
 
 from contextlib import contextmanager
 from threading import RLock
@@ -33,7 +34,7 @@ def _generate_lock_manager():
     return f
 
 
-cdef class HTSEngine(object):
+cdef class HTSEngine:
     """HTSEngine
 
     Args:

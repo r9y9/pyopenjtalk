@@ -2,7 +2,7 @@
 requires = [
     "setuptools>=64",
     "setuptools_scm>=8",
-    "cython>=0.28.0",
+    "cython>=0.29.16",
     "cmake",
     "numpy>=1.25.0; python_version>='3.9'",
     "oldest-supported-numpy; python_version<'3.9'",
@@ -52,7 +52,7 @@ docs = [
     "jupyter",
 ]
 dev = [
-    "cython>=0.28.0",
+    "cython>=0.29.16",
     "pysen",
     "types-setuptools",
     "mypy<=0.910",
