@@ -78,6 +78,7 @@ version_file = "pyopenjtalk/version.py"
 version_file_template = '''
 __version__ = "{version}"
 '''
+# local_scheme = "no-local-version"
 
 [tool.pysen]
 version = "0.10.2"
