@@ -1,5 +1,5 @@
 include pyopenjtalk/version.py
-exclude .gitignore .gitmodules .travis.yml release.sh tox.ini
+exclude .gitignore .gitmodules .travis.yml tox.ini
 prune .github/*
 prune docs/**
 recursive-include lib *.cpp *.c *.h README COPYING CMakeLists.txt *.in
