@@ -101,11 +101,7 @@ if not exists(join(src_top, "mecab", "src", "config.h")):
     os.makedirs(build_dir, exist_ok=True)
     os.chdir(build_dir)
 
-    # NOTE: The wrapped OpenJTalk does not depend on HTS_Engine,
-    # but since HTSEngine is included in CMake's dependencies, it refers to a dummy path.
-    r = subprocess.run(
-        ["cmake", "..", "-DHTS_ENGINE_INCLUDE_DIR=.", "-DHTS_ENGINE_LIB=dummy"]
-    )
+    r = subprocess.run(["cmake", ".."])
     r.check_returncode()
     os.chdir(cwd)
 
