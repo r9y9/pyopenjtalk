@@ -6,7 +6,7 @@ import sys
 import tarfile
 import tempfile
 from collections.abc import Callable, Generator
-from contextlib import ExitStack, contextmanager
+from contextlib import AbstractContextManager, ExitStack, contextmanager
 from os.path import exists
 from threading import Lock
 from typing import TypeVar
@@ -80,7 +80,7 @@ _T = TypeVar("_T")
 
 def _global_instance_manager(
     instance_factory: Callable[[], _T] | None = None, instance: _T | None = None
-) -> Callable[[], Generator[_T, None, None]]:
+) -> Callable[[], AbstractContextManager[_T]]:
     assert instance_factory is not None or instance is not None
     _instance = instance
     mutex = Lock()
